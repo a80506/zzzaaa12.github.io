@@ -8,7 +8,7 @@
 		a{color:#FFFF00;}
 		a{text-decoration: none}
 		a:hover{color:#707070;}
-		div{color:#66CC00;}
+		div{color:#80FF00;}
 	</style>
 <style type="text/css"></style></head>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
@@ -164,8 +164,8 @@
 							<tr><td>	<a href="http://zzzaaa12.logdown.com">Logdown</a></td></tr>
 							<tr><td>	<a href="https://github.com/zzzaaa12">Github</a></td></tr>
 							<tr><td>	<a href="https://thingspeak.com/channels/72313">溫溼度Sensor</a></td></tr>
-							<tr><td>	<div class="room">Room: 00°C , 00%</div></td></tr>
-							<tr><td>	<div class="balcony">00.00°C , 00.00%</div></td></tr>
+							<tr><td>	<div class="room">房間：00°C, 00%</div></td></tr>
+							<tr><td>	<div class="balcony">陽台：00°C, 00%</div></td></tr>
 						</tbody></table>
 					</td>
 				</tr>
@@ -187,14 +187,17 @@
 						room_humidity = val[i].field2;
 						
 					} else if (val[i].field3 && val[i].field4) {
-						balcony_temperature = val[i].field3;
-						balcony_humidity = val[i].field4;
+						balcony_temperature = parseInt(val[i].field3);
+						balcony_humidity = parseInt(val[i].field4);
 					}
 
 				}
 
-				$("div.room").html("Room: "+room_temperature+"°C , " + room_humidity + "%");
-				$("div.balcony").html(balcony_temperature+"°C , " +balcony_humidity + "%");
+				if (room_humidity > 70)
+					$("div.room").css("color", "red");
+					
+				$("div.room").html("房間: " + room_temperature + "°C, " + room_humidity + "%");
+				$("div.balcony").html("陽台: " + balcony_temperature + "°C, " + balcony_humidity + "%");
 			}
 		});
 	});
