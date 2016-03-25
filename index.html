@@ -8,8 +8,10 @@
 		a{color:#FFFF00;}
 		a{text-decoration: none}
 		a:hover{color:#707070;}
+		div{color:#66CC00;}
 	</style>
 <style type="text/css"></style></head>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
 <body>
 	<table border="0" width="100%" height="100%" align="center" valign="center">
 		<tbody><tr><td>
@@ -162,12 +164,44 @@
 							<tr><td>	<a href="http://zzzaaa12.logdown.com">Logdown</a></td></tr>
 							<tr><td>	<a href="https://github.com/zzzaaa12">Github</a></td></tr>
 							<tr><td>	<a href="https://about.me/zzzaaa12">about.me</a></td></tr>
-							<tr><td>	&nbsp;</td></tr>
-							<tr><td>	&nbsp;</td></tr>
+							<tr><td>	<div class="room">&nbsp;</div></td></tr>
+							<tr><td>	<div class="balcony">&nbsp;</div></td></tr>
 						</tbody></table>
 					</td>
 				</tr>
 			</tbody></table>
 		</td></tr>
 	</tbody></table>
+	
+	<script>
+	var max = 30;
+	var room_temperature = 0, room_humidity = 0, balcony_temperature = 0, balcony_humidity = 0;
+	var room = 0, balcony = 0;
+	
+	$.getJSON("https://api.thingspeak.com/channels/72313/feeds.json?results="+String(max),
+	function(data) {
+		$.each( data, function( key, val ) {
+			if (key == "feeds") {
+				for (var  i = 0; i < max; i++) {
+					if (val[i].field1 && val[i].field2) {
+						room_temperature = val[i].field1;
+						room_humidity = val[i].field2;
+						room = 1;
+						
+					} else if (val[i].field3 && val[i].field4) {
+						balcony_temperature = val[i].field3;
+						balcony_humidity = val[i].field4;
+						balcony = 1;
+					}
+
+					if (room && balcony) {					
+						$("div.room").html("Room: "+room_temperature+"°C , " + room_humidity + "%");
+						$("div.balcony").html(balcony_temperature+"°C , " +balcony_humidity + "%");
+						break;
+					}
+				}
+			}
+		});
+	});
+	</script>
 </body></html>
