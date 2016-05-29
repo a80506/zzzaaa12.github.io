@@ -162,10 +162,10 @@
 							<tr><td>	<a href="https://www.facebook.com">Facebook</a></td></tr>
 							<tr><td>	<a href="https://www.plurk.com/zzzaaa12">Plurk</a></a></td></tr>
 							<tr><td>	<a href="http://zzzaaa12.logdown.com">Logdown</a></td></tr>
-							<tr><td>	<a href="https://github.com/zzzaaa12">Github</a></td></tr>
 							<tr><td>	<a href="https://thingspeak.com/channels/72313">溫溼度Sensor</a></td></tr>
 							<tr><td>	<div class="room">房間：00°C, 00%</div></td></tr>
 							<tr><td>	<div class="balcony">陽台：00°C, 00%</div></td></tr>
+							<tr><td>	<div class="plant">澆花機：No data</div></td></tr>
 						</tbody></table>
 					</td>
 				</tr>
@@ -176,6 +176,7 @@
 	<script>
 	var max = 10;
 	var room_temperature = 0, room_humidity = 0, balcony_temperature = 0, balcony_humidity = 0;
+	var plant_level = -1, plant_water_times = -1;
 	
 	$.getJSON("https://api.thingspeak.com/channels/72313/feeds.json?results="+String(max),
 	function(data) {
@@ -191,13 +192,25 @@
 						balcony_humidity = parseInt(val[i].field4);
 					}
 
+					if (val[i].field5 && plant_level == -1)
+						plant_level = parseInt(val[i].field5);
+
+					if (val[i].field6 && plant_water_times == -1)
+						plant_water_times = parseInt(val[i].field6);
+						
+					if (room_temperature > 0 && room_humidity > 0 && plant_level > -1 &&　plant_water_times > -1)
+						break;
 				}
 
 				if (room_humidity > 70)
 					$("div.room").css("color", "red");
 					
-				$("div.room").html("房間: " + room_temperature + "°C, " + room_humidity + "%");
-				$("div.balcony").html("陽台: " + balcony_temperature + "°C, " + balcony_humidity + "%");
+				if (plant_level < 6)
+					$("div.plant").css("color", "red");
+					
+				$("div.room").html("房間：" + room_temperature + "°C, " + room_humidity + "%");
+				$("div.balcony").html("陽台：" + balcony_temperature + "°C, " + balcony_humidity + "%");
+				$("div.plant").html("水位 " + plant_level + ", 澆水" + plant_water_times + "次");
 			}
 		});
 	});
