@@ -174,7 +174,7 @@
 	</tbody></table>
 	
 	<script>
-	var max = 10;
+	var max = 20;
 	var room_temperature = 0, room_humidity = 0, balcony_temperature = 0, balcony_humidity = 0;
 	var plant_level = -1, plant_water_times = -1;
 	
@@ -197,9 +197,6 @@
 
 					if (val[i].field6 && plant_water_times == -1)
 						plant_water_times = parseInt(val[i].field6);
-						
-					if (room_temperature > 0 && room_humidity > 0 && plant_level > -1 &&　plant_water_times > -1)
-						break;
 				}
 
 				if (room_humidity > 70)
@@ -210,7 +207,9 @@
 					
 				$("div.room").html("房間：" + room_temperature + "°C, " + room_humidity + "%");
 				$("div.balcony").html("陽台：" + balcony_temperature + "°C, " + balcony_humidity + "%");
-				$("div.plant").html("水位 " + plant_level + ", 澆水" + plant_water_times + "次");
+				
+				if (plant_level > -1 && plant_water_times > -1)
+					$("div.plant").html("水位" + plant_level * 10 + "%, 澆水" + plant_water_times + "次");
 			}
 		});
 	});
