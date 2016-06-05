@@ -159,9 +159,9 @@
 					<td>
 						<table border="1" width="160" align="center" id="12">
 							<tbody><tr><td class="title">其他</td></tr>
-							<tr><td>	<a href="https://www.facebook.com">Facebook</a></td></tr>
-							<tr><td>	<a href="https://www.plurk.com/zzzaaa12">Plurk</a></a></td></tr>
-							<tr><td>	<a href="http://zzzaaa12.logdown.com">Logdown</a></td></tr>
+							<tr><td>	<a href="http://tw.stock.yahoo.com">奇摩股市</a></td></tr>
+							<tr><td>	<div class="tse">上市：No data</div></td></tr>
+							<tr><td>	<div class="otc">上櫃：No data</div></td></tr>
 							<tr><td>	<a href="https://thingspeak.com/channels/72313">溫溼度Sensor</a></td></tr>
 							<tr><td>	<div class="room">房間：00°C, 00%</div></td></tr>
 							<tr><td>	<div class="balcony">陽台：00°C, 00%</div></td></tr>
@@ -210,6 +210,49 @@
 				
 				if (plant_level > -1 && plant_water_times > -1)
 					$("div.plant").html("水位" + plant_level * 10 + "%, 澆水" + plant_water_times + "次");
+			}
+		});
+	});
+	
+	$.getJSON("http://za12.no-ip.info/stock/tse.json",
+	function(data) {
+		$.each( data, function( key, val ) {
+			if (key == "msgArray") {
+				var price = val[0].z;
+				var diff = val[0].z-val[0].y;
+				var change_str = "";
+				var color = "";
+				if (diff < 0) {
+					sign = "-";
+					color = "green";
+				} else {
+					sign = "+";
+					color = "red";
+				}
+				change_str = sign.concat(diff.toFixed(2));
+				$("div.tse").html( price + " ( " + change_str + " )");
+				$("div.tse").css("color", color);
+			}
+		});
+	});
+	
+	$.getJSON("http://za12.no-ip.info/stock/otc.json",
+	function(data) {
+		$.each( data, function( key, val ) {
+			if (key == "msgArray") {
+				var price = val[0].z;
+				var diff = val[0].z-val[0].y;
+				var change_str = "";
+				if (diff < 0) {
+					sign = "-";
+					color = "green";
+				} else {
+					sign = "+";
+					color = "red";
+				}
+				change_str = sign.concat(diff.toFixed(2));
+				$("div.otc").html( price + " ( " + change_str + " )");
+				$("div.otc").css("color", color);
 			}
 		});
 	});
