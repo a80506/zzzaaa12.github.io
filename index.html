@@ -218,7 +218,7 @@
 	function(data) {
 		$.each( data, function( key, val ) {
 			if (key == "msgArray") {
-				var price = val[0].z;
+				var price = parseInt(val[0].z);
 				var diff = val[0].z-val[0].y;
 				var change_str = "";
 				var color = "";
@@ -229,8 +229,8 @@
 					sign = "+";
 					color = "red";
 				}
-				change_str = sign.concat(diff.toFixed(2));
-				$("div.tse").html( price + " ( " + change_str + " )");
+				change_str = sign.concat(parseInt(diff));
+				$("div.tse").html( price + " ( " + change_str + " ) "+ parseInt(val[0].v/100) +"E");
 				$("div.tse").css("color", color);
 				$("div.stock_time").html(val[0].d.substring(4,6) + "/" + val[0].d.substring(6,9) + " " + val[0].t.substring(0,5));
 				$("div.stock_time").css("color", "#FFFF00");
@@ -253,7 +253,7 @@
 					color = "red";
 				}
 				change_str = sign.concat(diff.toFixed(2));
-				$("div.otc").html( price + " ( " + change_str + " )");
+				$("div.otc").html( price + " ( " + change_str + " ) "+ parseInt(val[0].v/100) +"E");
 				$("div.otc").css("color", color);
 			}
 		});
