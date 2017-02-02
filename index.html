@@ -165,7 +165,7 @@
 							<tr><td>	<a href="https://thingspeak.com/channels/72313">溫溼度Sensor</a></td></tr>
 							<tr><td>	<div class="room">房間：00°C, 00%</div></td></tr>
 							<tr><td>	<div class="balcony">陽台：00°C, 00%</div></td></tr>
-							<tr><td>	<div class="plant">澆花機：No data</div></td></tr>
+							<tr><td>	<div class="pm25">PM2.5：No data</div></td></tr>
 						</tbody></table>
 					</td>
 				</tr>
@@ -191,25 +191,13 @@
 						balcony_temperature = parseInt(val[i].field3);
 						balcony_humidity = parseInt(val[i].field4);
 					}
-
-					if (val[i].field5)
-						plant_level = parseInt(val[i].field5);
-
-					if (val[i].field6)
-						plant_water_times = parseInt(val[i].field6);
 				}
 
 				if (room_humidity > 70)
 					$("div.room").css("color", "red");
 					
-				if (plant_level < 6)
-					$("div.plant").css("color", "red");
-					
 				$("div.room").html("房間：" + room_temperature + "°C, " + room_humidity + "%");
 				$("div.balcony").html("陽台：" + balcony_temperature + "°C, " + balcony_humidity + "%");
-				
-				if (plant_level > -1 && plant_water_times > -1)
-					$("div.plant").html("水位" + plant_level + "%, 澆水" + plant_water_times + "次");
 			}
 		});
 	});
@@ -255,6 +243,18 @@
 				change_str = sign.concat(diff.toFixed(2));
 				$("div.otc").html( price + " ( " + change_str + " ) "+ parseInt(val[0].v/100) +"E");
 				$("div.otc").css("color", color);
+			}
+		});
+	});
+	$.getJSON("http://za12.no-ip.org/air.json",
+	function(data) {
+		$.each( data, function( key, val ) {
+			if (val.SiteName == "汐止") {
+				if (parseInt(val.PM25) > 35)
+					$("div.pm25").css("color", "orange");
+				else if (parseInt(val.PM25) > 53)
+					$("div.pm25").css("color", "red");
+				$("div.pm25").html("汐止 PM2.5：" + val.PM25);
 			}
 		});
 	});
