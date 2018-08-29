@@ -163,10 +163,10 @@
 							<tr><td>	<div class="stock_time">Date: No data</div></td></tr>
 							<tr><td>	<div class="tse">上市：No data</div></td></tr>
 							<tr><td>	<div class="otc">上櫃：No data</div></td></tr>
-							<tr><td>	<a href="https://thingspeak.com/channels/72313">溫溼度Sensor</a></td></tr>
-							<tr><td>	<div class="room">房間：00°C, 00%</div></td></tr>
-							<tr><td>	<div class="balcony">陽台：00°C, 00%</div></td></tr>
-							<tr><td>	<div class="pm25">PM2.5：No data</div></td></tr>
+							<tr><td>	<div class="living_room">客廳：00°C, 00%</div></td></tr>
+							<tr><td>	<div class="room1">陽台：00°C, 00%</div></td></tr>
+							<tr><td>	<div class="room2">客房：00°C, 00%</div></td></tr>
+							<tr><td>	<div class="room3">書房：00°C, 00%</div></td></tr>
 						</tbody></table>
 					</td>
 				</tr>
@@ -176,7 +176,10 @@
 	
 	<script>
 	var max = 20;
-	var room_temperature = 0, room_humidity = 0, balcony_temperature = 0, balcony_humidity = 0;
+	var living_room_temperature = 0, living_room_humidity = 0;
+	var room1_temperature = 0, room1_humidity = 0;
+	var room2_temperature = 0, room2_humidity = 0;
+	var room3_temperature = 0, room3_humidity = 0;
 	var plant_level = -1, plant_water_times = -1;
 	
 	$.getJSON("https://api.thingspeak.com/channels/72313/feeds.json?results="+String(max),
@@ -185,20 +188,39 @@
 			if (key == "feeds") {
 				for (var  i = 0; i < max; i++) {
 					if (val[i].field1 && val[i].field2) {
-						room_temperature = val[i].field1;
-						room_humidity = val[i].field2;
-						
+						living_room_temperature = val[i].field1;
+						living_room_humidity = val[i].field2;
 					} else if (val[i].field3 && val[i].field4) {
-						balcony_temperature = parseInt(val[i].field3);
-						balcony_humidity = parseInt(val[i].field4);
+						room1_temperature = parseInt(val[i].field3);
+						room1_humidity = parseInt(val[i].field4);
+					} else if (val[i].field5 && val[i].field6) {
+						room2_temperature = parseInt(val[i].field5);
+						room2_humidity = parseInt(val[i].field6);
 					}
 				}
 
-				if (room_humidity > 70)
-					$("div.room").css("color", "red");
+				//if (room_humidity > 70)
+				//	$("div.room").css("color", "red");
 					
-				$("div.room").html("房間：" + room_temperature + "°C, " + room_humidity + "%");
-				$("div.balcony").html("陽台：" + balcony_temperature + "°C, " + balcony_humidity + "%");
+				$("div.living_room").html("客廳：" + living_room_temperature + "°C, " + living_room_humidity + "%");
+				$("div.room1").html("主臥：" + room1_temperature + "°C, " + room1_humidity + "%");
+				$("div.room2").html("客房：" + room2_temperature + "°C, " + room2_humidity + "%");
+			}
+		});
+	});
+	
+	$.getJSON("https://api.thingspeak.com/channels/565880/feeds.json?results="+String(max),
+	function(data) {
+		$.each( data, function( key, val ) {
+			if (key == "feeds") {
+				for (var  i = 0; i < max; i++) {
+					if (val[i].field1 && val[i].field2) {
+						room3_temperature = parseInt(val[i].field1);
+						room3_humidity = parseInt(val[i].field2);
+					}
+				}
+				$("div.room3").html("書房：" + room3_temperature + "°C, " + room3_humidity + "%");
+	
 			}
 		});
 	});
