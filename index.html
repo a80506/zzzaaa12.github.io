@@ -128,7 +128,7 @@
 							<tbody><tr><td class="title">購物 & 網路書店</td></tr>
 							<tr><td>	<a href="http://buy.yahoo.com.tw">Yahoo!購物中心</a></td></tr>
 							<tr><td>	<a href="http://shopping.pchome.com.tw">PCHome線上購物</a></td></tr>
-							<tr><td>	<a href="http://tw.bid.yahoo.com">Yahoo!拍賣</a></td></tr>
+							<tr><td>	<a href="http://shopee.tw">蝦皮拍賣</a></td></tr>
 							<tr><td>	<a href="http://www.ruten.com.tw">露天拍賣</a></td></tr>
 							<tr><td>	<a href="http://www.book-ecoupon.com/2014/11/kingstone-coupon.html">金石堂折價券</a></td></tr>
 							<tr><td>	<a href="http://www.tenlong.com.tw">天瓏書局</a></td></tr>
@@ -157,19 +157,19 @@
 							<tr><td>	<a href="http://www.thsrc.com.tw/irs.html">高鐵訂票系統</a></td></tr>
 							<tr><td>	<a href="http://ebus.taipei.gov.tw/Query/BusDynamicMainList">大台北公車</a></td></tr>
 							<tr><td>	&nbsp;</td></tr>
-							<tr><td>	<a href="http://ebus.taipei.gov.tw/Stop/RoutesOfStop?Stopid=2215300260">公車-北山里</a></td></tr>
+							<tr><td>	&nbsp;</td></tr>
 						</tbody></table>
 					</td>
 					<td>
 						<table border="1" width="160" align="center" id="12">
 							<tbody><tr><td class="title">即時資訊</td></tr>
-							<tr><td>	<div class="stock_time">Date: No data</div></td></tr>
-							<tr><td>	<div class="tse">上市：No data</div></td></tr>
-							<tr><td>	<div class="otc">上櫃：No data</div></td></tr>
+							<tr><td>	<div class="sensor"><a href="https://zzzaaa12.github.io/sensor2.html">溫溼度圖表</a></div></td></tr>
 							<tr><td>	<div class="living_room">客廳：00°C, 00%</div></td></tr>
 							<tr><td>	<div class="room1">陽台：00°C, 00%</div></td></tr>
 							<tr><td>	<div class="room2">客房：00°C, 00%</div></td></tr>
 							<tr><td>	<div class="room3">書房：00°C, 00%</div></td></tr>
+							<tr><td>	&nbsp;</td></tr>
+							<tr><td>	&nbsp;</td></tr>
 						</tbody></table>
 					</td>
 				</tr>
@@ -224,63 +224,6 @@
 				}
 				$("div.room3").html("書房：" + room3_temperature + "°C, " + room3_humidity + "%");
 	
-			}
-		});
-	});
-	
-	$.getJSON("http://za12.no-ip.info/stock/tse.json",
-	function(data) {
-		$.each( data, function( key, val ) {
-			if (key == "msgArray") {
-				var price = parseInt(val[0].z);
-				var diff = val[0].z-val[0].y;
-				var change_str = "";
-				var color = "";
-				var sign = "";
-				if (diff < 0) {
-					color = "#80FF00";
-				} else {
-					sign = "+";
-					color = "red";
-				}
-				change_str = sign.concat(parseInt(diff));
-				$("div.tse").html( price + " ( " + change_str + " ) "+ parseInt(val[0].v/100) +"E");
-				$("div.tse").css("color", color);
-				$("div.stock_time").html(val[0].d.substring(4,6) + "/" + val[0].d.substring(6,9) + " " + val[0].t.substring(0,5));
-				$("div.stock_time").css("color", "#FFFF00");
-			}
-		});
-	});
-	
-	$.getJSON("http://za12.no-ip.info/stock/otc.json",
-	function(data) {
-		$.each( data, function( key, val ) {
-			if (key == "msgArray") {
-				var price = val[0].z;
-				var diff = val[0].z-val[0].y;
-				var change_str = "";
-				var sign = "";
-				if (diff < 0) {
-					color = "#80FF00";
-				} else {
-					sign = "+";
-					color = "red";
-				}
-				change_str = sign.concat(diff.toFixed(2));
-				$("div.otc").html( price + " ( " + change_str + " ) "+ parseInt(val[0].v/100) +"E");
-				$("div.otc").css("color", color);
-			}
-		});
-	});
-	$.getJSON("http://za12.no-ip.org/air.json",
-	function(data) {
-		$.each( data, function( key, val ) {
-			if (val.SiteName == "汐止") {
-				if (parseInt(val.PM25) > 35)
-					$("div.pm25").css("color", "orange");
-				else if (parseInt(val.PM25) > 53)
-					$("div.pm25").css("color", "red");
-				$("div.pm25").html("汐止 PM2.5：" + val.PM25);
 			}
 		});
 	});
