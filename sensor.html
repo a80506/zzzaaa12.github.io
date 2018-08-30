@@ -1,0 +1,109 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <title>DHT sendors</title>
+      <style type="text/css">
+         body{font-size:9pt; background-color:#000000;}
+         table{border-collapse:collapse; border-color:#707070;}
+         td{empty-cells:show; color:#FFFF00; text-align:center;border-color:#707070;}
+         td.title{font-weight:bolder; color:#000000; background-color:#FF9933;}
+         a{color:#FFFF00;}
+         a{text-decoration: none}
+         a:hover{color:#707070;}
+         div{color:#80FF00;}
+      </style>
+      <style type="text/css"></style>
+      <script type="text/javascript" src="./zzzaaa12&#39;s index_files/jquery-1.12.2.min.js.下載"></script><script src="./zzzaaa12&#39;s index_files/jquery-1.12.4.min.js.下載" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+   </head>
+   <body>
+      <table border="1" width=160>
+         <tbody>
+            <tr>
+               <td class="title">溫溼度計</td>
+            </tr>
+            <tr>
+               <td>
+                  <div class="living_room">客廳：28°C, 81%</div>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <div class="room1">主臥：26°C, 88%</div>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <div class="room2">客房：27°C, 76%</div>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <div class="room3">書房：28°C, 76%</div>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <div class="url1"><a href="https://thingspeak.com/channels/72313">圖表1</a>　<a href="https://thingspeak.com/channels/565880">圖表2</a></div>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <div class="url2"></div>
+               </td>
+            </tr>
+         </tbody>
+      </table>
+      <script>
+         var max = 20;
+         var living_room_temperature = 0, living_room_humidity = 0;
+         var room1_temperature = 0, room1_humidity = 0;
+         var room2_temperature = 0, room2_humidity = 0;
+         var room3_temperature = 0, room3_humidity = 0;
+         var plant_level = -1, plant_water_times = -1;
+         
+         $.getJSON("https://api.thingspeak.com/channels/72313/feeds.json?results="+String(max),
+         function(data) {
+         	$.each( data, function( key, val ) {
+         		if (key == "feeds") {
+         			for (var  i = 0; i < max; i++) {
+         				if (val[i].field1 && val[i].field2) {
+         					living_room_temperature = val[i].field1;
+         					living_room_humidity = val[i].field2;
+         				} else if (val[i].field3 && val[i].field4) {
+         					room1_temperature = parseInt(val[i].field3);
+         					room1_humidity = parseInt(val[i].field4);
+         				} else if (val[i].field5 && val[i].field6) {
+         					room2_temperature = parseInt(val[i].field5);
+         					room2_humidity = parseInt(val[i].field6);
+         				}
+         			}
+         
+         			//if (room_humidity > 70)
+         			//	$("div.room").css("color", "red");
+         				
+         			$("div.living_room").html("客廳：" + living_room_temperature + "°C, " + living_room_humidity + "%");
+         			$("div.room1").html("主臥：" + room1_temperature + "°C, " + room1_humidity + "%");
+         			$("div.room2").html("客房：" + room2_temperature + "°C, " + room2_humidity + "%");
+         		}
+         	});
+         });
+         
+         $.getJSON("https://api.thingspeak.com/channels/565880/feeds.json?results="+String(max),
+         function(data) {
+         	$.each( data, function( key, val ) {
+         		if (key == "feeds") {
+         			for (var  i = 0; i < max; i++) {
+         				if (val[i].field1 && val[i].field2) {
+         					room3_temperature = parseInt(val[i].field1);
+         					room3_humidity = parseInt(val[i].field2);
+         				}
+         			}
+         			$("div.room3").html("書房：" + room3_temperature + "°C, " + room3_humidity + "%");
+         
+         		}
+         	});
+         });
+         
+      </script>
+   </body>
+</html>
