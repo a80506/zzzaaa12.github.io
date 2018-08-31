@@ -47,6 +47,9 @@
          				} else if (val[i].field5 && val[i].field6) {
          					room2_temperature = parseInt(val[i].field5);
          					room2_humidity = parseInt(val[i].field6);
+         				} else if (val[i].field7 && val[i].field8) {
+         					room3_temperature = parseInt(val[i].field7);
+         					room3_humidity = parseInt(val[i].field8);
          				}
          			}
          
@@ -90,8 +93,8 @@
 		  <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/72313/charts/6?bgcolor=%23ffffff&color=%23d62020&dynamic=true&max=100&min=0&results=100&title=%E5%AE%A2%E6%88%BF-%E6%BF%95%E5%BA%A6&type=spline&yaxismax=100&yaxismin=50"></iframe>
 		</p>
 		<p>
-		  <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/565880/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&max=50&min=0&results=100&title=%E6%9B%B8%E6%88%BF-%E6%BA%AB%E5%BA%A6&type=spline&yaxismax=40&yaxismin=20"></iframe>
-          <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/565880/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&max=50&min=0&results=100&title=%E6%9B%B8%E6%88%BF-%E6%BA%AB%E5%BA%A6&type=spline&yaxismax=40&yaxismin=20"></iframe>
+          <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/72313/charts/7?bgcolor=%23ffffff&color=%23d62020&dynamic=true&max=50&min=0&results=100&title=%E6%9B%B8%E6%88%BF-%E6%BA%AB%E5%BA%A6&type=spline&yaxismax=40&yaxismin=20"></iframe>
+          <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/72313/charts/8?bgcolor=%23ffffff&color=%23d62020&dynamic=true&max=100&min=0&results=100&title=%E6%9B%B8%E6%88%BF-%E6%BF%95%E5%BA%A6&type=spline&yaxismax=100&yaxismin=50"></iframe>
 		</p>
       </div>
    </body>
