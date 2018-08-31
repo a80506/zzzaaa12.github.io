@@ -11,7 +11,6 @@
 		div{color:#80FF00;}
 	</style>
 <style type="text/css"></style></head>
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"
 	integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
 	crossorigin="anonymous"></script>
@@ -163,12 +162,12 @@
 					<td>
 						<table border="1" width="160" align="center" id="12">
 							<tbody><tr><td class="title">即時資訊</td></tr>
+							<tr><td>	<div class="sensor"><a href="https://thingspeak.com/channels/72313">ThingSpeak</a></div></td></tr>
 							<tr><td>	<div class="sensor"><a href="https://zzzaaa12.github.io/sensor2.html">溫溼度圖表</a></div></td></tr>
 							<tr><td>	<div class="living_room">客廳：00°C, 00%</div></td></tr>
 							<tr><td>	<div class="room1">主臥：00°C, 00%</div></td></tr>
 							<tr><td>	<div class="room2">客房：00°C, 00%</div></td></tr>
 							<tr><td>	<div class="room3">書房：00°C, 00%</div></td></tr>
-							<tr><td>	&nbsp;</td></tr>
 							<tr><td>	&nbsp;</td></tr>
 						</tbody></table>
 					</td>
@@ -199,6 +198,9 @@
 					} else if (val[i].field5 && val[i].field6) {
 						room2_temperature = parseInt(val[i].field5);
 						room2_humidity = parseInt(val[i].field6);
+					} else if (val[i].field7 && val[i].field8) {
+						room3_temperature = parseInt(val[i].field7);
+						room3_humidity = parseInt(val[i].field8);
 					}
 				}
 
@@ -208,22 +210,7 @@
 				$("div.living_room").html("客廳：" + living_room_temperature + "°C, " + living_room_humidity + "%");
 				$("div.room1").html("主臥：" + room1_temperature + "°C, " + room1_humidity + "%");
 				$("div.room2").html("客房：" + room2_temperature + "°C, " + room2_humidity + "%");
-			}
-		});
-	});
-	
-	$.getJSON("https://api.thingspeak.com/channels/565880/feeds.json?results="+String(max),
-	function(data) {
-		$.each( data, function( key, val ) {
-			if (key == "feeds") {
-				for (var  i = 0; i < max; i++) {
-					if (val[i].field1 && val[i].field2) {
-						room3_temperature = parseInt(val[i].field1);
-						room3_humidity = parseInt(val[i].field2);
-					}
-				}
 				$("div.room3").html("書房：" + room3_temperature + "°C, " + room3_humidity + "%");
-	
 			}
 		});
 	});
