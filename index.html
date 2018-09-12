@@ -90,7 +90,7 @@
 							<tr><td>	<a href="https://www.esunbank.com.tw/bank/personal/deposit/rate/forex/foreign-exchange-rates">玉山匯率</a></td></tr>
 							<tr><td>	<a href="http://finance.yahoo.com/quote/%5EDJI/news?p=%5EDJI">道瓊即時</a></td></tr>
 							<tr><td>	<a href="http://www.investing.com/indices/indices-futures">Investing Futures</a></td></tr>
-							<tr><td>	<a href="https://finance.yahoo.com/quote/BTCUSD%3DX?p=BTCUSD%3DX">BTC</a> <a href="https://www.investing.com/indices/china-a50">A50</a></td></tr>
+							<tr><td>	<a href="https://finance.yahoo.com/quote/BTCUSD%3DX?p=BTCUSD%3DX">BTC</a> <a href="https://finance.yahoo.com/quote/ETHUSD%3DX?p=ETHUSD%3DX">ETH</a> <a href="https://www.investing.com/indices/china-a50">A50</a></td></tr>
 							<tr><td>	<a href="https://tw.stock.yahoo.com/us/worldidx.php">國際重要指數</a></td></tr>
 							<tr><td>	<a href="https://docs.google.com/document/d/1iA1Rque7zVkWTskYecCK-_WAkzZuoJdX5RUy-yVfYxs/edit#">股票筆記</></td></tr>
 						</tbody></table>
@@ -116,7 +116,7 @@
 							<tr><td>	<a href="http://tw.stock.yahoo.com">奇摩股市</a></td></tr>
 							<tr><td>	<a href="http://mops.twse.com.tw/server-java/t164sb01">IFRS 財務報表</a></td></tr>
 							<tr><td>	<a href="http://ic.tpex.org.tw">產業價值鏈資訊平台</a></td></tr>
-							<tr><td>	<a href="http://www.investing.com/commodities/crude-oil">Oil Price</a></td></tr>
+							<tr><td>	<a href="https://moneynmall.moneybar.com.tw/expertsDetail.php?expert_id=14">安納金</a></td></tr>
 						</tbody></table>
 					</td>
 				</tr>
@@ -162,13 +162,13 @@
 					<td>
 						<table border="1" width="160" align="center" id="12">
 							<tbody><tr><td class="title">即時資訊</td></tr>
-							<tr><td>	<div class="sensor"><a href="https://thingspeak.com/channels/72313">ThingSpeak</a></div></td></tr>
-							<tr><td>	<div class="sensor"><a href="https://zzzaaa12.github.io/sensor2.html">溫溼度圖表</a></div></td></tr>
+							<tr><td>	<div class="sensor"><a href="https://thingspeak.com/channels/72313">溫溼度</a> <a href="https://thingspeak.com/channels/72839">空氣</a></div></td></tr>
+							<tr><td>	<div class="sensor"><a href="https://zzzaaa12.github.io/sensor2.html">全部圖表</a></div></td></tr>
 							<tr><td>	<div class="living_room">客廳：00°C, 00%</div></td></tr>
 							<tr><td>	<div class="room1">主臥：00°C, 00%</div></td></tr>
 							<tr><td>	<div class="room2">客房：00°C, 00%</div></td></tr>
 							<tr><td>	<div class="room3">書房：00°C, 00%</div></td></tr>
-							<tr><td>	&nbsp;</td></tr>
+							<tr><td>	<div class="pm25">PM2.5：0 ug/m3</div></td></tr>
 						</tbody></table>
 					</td>
 				</tr>
@@ -182,6 +182,7 @@
 	var room1_temperature = 0, room1_humidity = 0;
 	var room2_temperature = 0, room2_humidity = 0;
 	var room3_temperature = 0, room3_humidity = 0;
+	var pm25 = 0
 	var plant_level = -1, plant_water_times = -1;
 	
 	$.getJSON("https://api.thingspeak.com/channels/72313/feeds.json?results="+String(max),
@@ -211,6 +212,20 @@
 				$("div.room1").html("主臥：" + room1_temperature + "°C, " + room1_humidity + "%");
 				$("div.room2").html("客房：" + room2_temperature + "°C, " + room2_humidity + "%");
 				$("div.room3").html("書房：" + room3_temperature + "°C, " + room3_humidity + "%");
+			}
+		});
+	});
+	
+	$.getJSON("https://api.thingspeak.com/channels/72839/feeds.json?results="+String(max),
+	function(data) {
+		$.each( data, function( key, val ) {
+			if (key == "feeds") {
+				for (var  i = 0; i < max; i++) {
+					if (val[i].field2) {
+						pm25 = parseInt(val[i].field2);
+					}
+				}
+				$("div.pm25").html("PM2.5：" + pm25 + " ug/m3");
 			}
 		});
 	});
