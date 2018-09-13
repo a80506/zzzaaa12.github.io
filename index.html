@@ -152,10 +152,10 @@
                     <tr><td>    <a href="https://coinmarketcap.com">CoinMarketCap</a></td></tr>
                     <tr><td>    <a href="https://www.blocktempo.com">動區 BlockTempo</a></td></tr>
                     <tr><td>    <a href="https://max.maicoin.com">MAX交易所</a></tr>
-                    <tr><td>    <a href="https://otcbtc.com">OTCBTC</a></td></tr>
-                    <tr><td>    <div class="btc">BTC：0000 USD</div></td></tr>
-                    <tr><td>    <div class="eth">ETH：0000 USD</div></td></tr>
-                    <tr><td>    <div class="iota">IOTA：000 USD</div></td></tr>
+                    <tr><td>    <div class="usd">USD: 0000 NTD</div></td></tr>
+                    <tr><td>    <div class="btc">BTC: 0000 USD</div></td></tr>
+                    <tr><td>    <div class="eth">ETH: 0000 USD</div></td></tr>
+                    <tr><td>    <div class="iota">IOTA: 000 USD</div></td></tr>
                 </tbody></table>
             </td>
             <td>
@@ -250,7 +250,7 @@
         });
     });
     
-    $.getJSON("https://api.coinmarketcap.com/v2/ticker/?limit=20",
+    $.getJSON("https://api.coinmarketcap.com/v2/ticker/?convert=TWD&limit=20",
     function(data){
         for(var key in data.data){
             var coin = data.data[key];
@@ -260,14 +260,16 @@
             var sign = '';
             var color = "red";
             
-            if (coin.name == "Bitcoin")
+            if (coin.name == "Bitcoin") {
                 div = "div.btc";
-            else if (coin.name == "Ethereum")
+                $('div.usd').html("USD: " + String((parseFloat(coin.quotes.TWD.price)/parseFloat(coin.quotes.USD.price)).toFixed(2)) + " NTD");
+            } else if (coin.name == "Ethereum") {
                 div = "div.eth";            
-            else if (coin.name == "IOTA")
+            } else if (coin.name == "IOTA") {
                 div = "div.iota";
-            else
+            } else {
                 continue;
+            }
                 
             if (percentage > 0) {
                 sign = '+';
@@ -280,7 +282,7 @@
                 price = parseInt(price);
     
             $(div).css("color", color);
-            $(div).html(coin.symbol + ": " + String(price) + " (" + sign + parseInt(percentage) + "%)");                
+            $(div).html(coin.symbol + ": " + String(price) + " (" + sign + parseInt(percentage) + "%)");
         }
     });
 
