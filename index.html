@@ -72,15 +72,15 @@
 				<!-----------------------------------------------------------------------第二列----------------------------------------------------------------------->
 				<tr valign="top">
 					<td>
-						<table border="1" width="160" align="center" id="05">
-							<tbody><tr><td class="title">網路工具</td></tr>
-							<tr><td>	<a href="http://www.google.com.tw">Google</a></td></tr>
-							<tr><td>	<a href="http://tw.yahoo.com">Yahoo!奇摩</a></td></tr>
-							<tr><td>	<a href="http://maps.google.com.tw">Google Map</a></td></tr>
-							<tr><td>	<a href="http://translate.google.com.tw/translate_t">Google 翻譯</a></td></tr>
-							<tr><td>	<a href="http://tw.dictionary.yahoo.com">Yahoo!奇摩字典</a></td></tr>
-							<tr><td>	<a href="http://getpocket.com">Pocket</a></td></tr>
-							<tr><td>	<a href="http://webcat.tpml.edu.tw/webpac/webpacIndex.jsp">台北市立圖書館</a></td></tr>
+						<table border="1" width="160" align="center" id="11">
+							<tbody><tr><td class="title">交通資訊</td></tr>
+							<tr><td>	<a href="http://twtraffic.tra.gov.tw/twrail">台鐵時刻表</a></td></tr>
+							<tr><td>	<a href="https://irs.thsrc.com.tw/IMINT/?wicket:bookmarkablePage=:tw.com.mitac.webapp.thsr.viewer.ScheduleS1">高鐵時刻表</a></td></tr>
+							<tr><td>	<a href="http://railway.hinet.net">台鐵訂票系統</a></td></tr>
+							<tr><td>	<a href="http://www.thsrc.com.tw/irs.html">高鐵訂票系統</a></td></tr>
+							<tr><td>	<a href="http://ebus.taipei.gov.tw/Query/BusDynamicMainList">大台北公車</a></td></tr>
+							<tr><td>	&nbsp;</td></tr>
+							<tr><td>	&nbsp;</td></tr>
 						</tbody></table>
 					</td>
 					<td>
@@ -90,7 +90,7 @@
 							<tr><td>	<a href="https://www.esunbank.com.tw/bank/personal/deposit/rate/forex/foreign-exchange-rates">玉山匯率</a></td></tr>
 							<tr><td>	<a href="http://finance.yahoo.com/quote/%5EDJI/news?p=%5EDJI">道瓊即時</a></td></tr>
 							<tr><td>	<a href="http://www.investing.com/indices/indices-futures">Investing Futures</a></td></tr>
-							<tr><td>	<a href="https://finance.yahoo.com/quote/BTCUSD%3DX?p=BTCUSD%3DX">BTC</a> <a href="https://finance.yahoo.com/quote/ETHUSD%3DX?p=ETHUSD%3DX">ETH</a> <a href="https://www.investing.com/indices/china-a50">A50</a></td></tr>
+							<tr><td>	<a href="https://www.investing.com/indices/china-a50">A50</a></td></tr>
 							<tr><td>	<a href="https://tw.stock.yahoo.com/us/worldidx.php">國際重要指數</a></td></tr>
 							<tr><td>	<a href="https://docs.google.com/document/d/1iA1Rque7zVkWTskYecCK-_WAkzZuoJdX5RUy-yVfYxs/edit#">股票筆記</></td></tr>
 						</tbody></table>
@@ -149,14 +149,14 @@
 					</td>
 					<td>
 						<table border="1" width="160" align="center" id="11">
-							<tbody><tr><td class="title">交通資訊</td></tr>
-							<tr><td>	<a href="http://twtraffic.tra.gov.tw/twrail">台鐵時刻表</a></td></tr>
-							<tr><td>	<a href="https://irs.thsrc.com.tw/IMINT/?wicket:bookmarkablePage=:tw.com.mitac.webapp.thsr.viewer.ScheduleS1">高鐵時刻表</a></td></tr>
-							<tr><td>	<a href="http://railway.hinet.net">台鐵訂票系統</a></td></tr>
-							<tr><td>	<a href="http://www.thsrc.com.tw/irs.html">高鐵訂票系統</a></td></tr>
-							<tr><td>	<a href="http://ebus.taipei.gov.tw/Query/BusDynamicMainList">大台北公車</a></td></tr>
-							<tr><td>	&nbsp;</td></tr>
-							<tr><td>	&nbsp;</td></tr>
+							<tbody><tr><td class="title">投資理財</td></tr>
+							<tr><td>	<a href="https://coinmarketcap.com">CoinMarketCap</a></td></tr>
+							<tr><td>	<a href="https://www.blocktempo.com">動區 BlockTempo</a></td></tr>
+							<tr><td>	<a href="https://max.maicoin.com">MAX交易所</a></tr>
+							<tr><td>	<a href="https://otcbtc.com">OTCBTC</a></td></tr>
+							<tr><td>	<div class="btc">BTC：0000 USD</div></td></tr>
+							<tr><td>	<div class="eth">ETH：0000 USD</div></td></tr>
+							<tr><td>	<div class="iota">IOTA：000 USD</div></td></tr>
 						</tbody></table>
 					</td>
 					<td>
@@ -229,5 +229,40 @@
 			}
 		});
 	});
+	
+    $.getJSON("https://api.coinmarketcap.com/v2/ticker/?limit=20",
+	function(data){
+        for(var key in data.data){
+            var coin = data.data[key];
+            var percentage = coin.quotes.USD.percent_change_24h;
+            var price = parseFloat(coin.quotes.USD.price);
+            var div = '';
+            var sign = '';
+            var color = "red";
+			
+            if (coin.name == "Bitcoin")
+                div = "div.btc";
+            else if (coin.name == "Ethereum")
+		div = "div.eth";			
+            else if (coin.name == "IOTA")
+                div = "div.iota";
+            else
+                continue;
+				
+            if (percentage > 0) {
+                sign = '+';
+                color = "#80FF00";
+            }
+
+            if (parseInt(price) == 0)
+                price = price.toFixed(2);
+            else
+                price = parseInt(price);
+	
+            $(div).css("color", color);
+            $(div).html(coin.symbol + ": " + String(price) + " (" + sign + percentage + "%)");				
+        }
+    });
+
 	</script>
 </body></html>
