@@ -240,8 +240,11 @@
                         pm25 = parseInt(val[i].field2);
                 }
                 
-                if (pm25 > 20)
+                if (pm25 >= 40)
                     $("div.pm25").css("color", "red");
+                else if (pm25 >= 20)
+                    $("div.pm25").css("color", "orange");
+
                 $("div.pm25").html("PM2.5：" + pm25 + " ug/m3");
             }
         });
