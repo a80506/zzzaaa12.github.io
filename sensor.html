@@ -65,10 +65,10 @@
 
     <script>
         var max = 20;
-        var living_room_temperature = 0, living_room_humidity = 0;
-        var room1_temperature = 0, room1_humidity = 0;
-        var room2_temperature = 0, room2_humidity = 0;
-        var room3_temperature = 0, room3_humidity = 0;
+        var living_room_t = 0, living_room_h = 0;
+        var room1_t = 0, room1_h = 0;
+        var room2_t = 0, room2_h = 0;
+        var room3_t = 0, room3_h = 0;
         var plant_level = -1, plant_water_times = -1;
         var pm25 = 0, pm10 = 0;
 
@@ -78,24 +78,44 @@
                     if (key == "feeds") {
                         for (var i = 0; i < max; i++) {
                             if (val[i].field1 && val[i].field2) {
-                                living_room_temperature = val[i].field1;
-                                living_room_humidity = val[i].field2;
+                                living_room_t = val[i].field1;
+                                living_room_h = val[i].field2;
                             } else if (val[i].field3 && val[i].field4) {
-                                room1_temperature = parseInt(val[i].field3);
-                                room1_humidity = parseInt(val[i].field4);
+                                room1_t = parseInt(val[i].field3);
+                                room1_h = parseInt(val[i].field4);
                             } else if (val[i].field5 && val[i].field6) {
-                                room2_temperature = parseInt(val[i].field5);
-                                room2_humidity = parseInt(val[i].field6);
+                                room2_t = parseInt(val[i].field5);
+                                room2_h = parseInt(val[i].field6);
                             } else if (val[i].field7 && val[i].field8) {
-                                room3_temperature = parseInt(val[i].field7);
-                                room3_humidity = parseInt(val[i].field8);
+                                room3_t = parseInt(val[i].field7);
+                                room3_h = parseInt(val[i].field8);
                             }
                         }
 
-                        $("div.living_room").html("客廳：" + living_room_temperature + "°C, " + living_room_humidity + "%");
-                        $("div.room1").html("主臥：" + room1_temperature + "°C, " + room1_humidity + "%");
-                        $("div.room2").html("客房：" + room2_temperature + "°C, " + room2_humidity + "%");
-                        $("div.room3").html("書房：" + room3_temperature + "°C, " + room3_humidity + "%");
+                        if (living_room_h >= 80)
+                            $("div.living_room").css("color", "red");
+                        else (living_room_h >= 70)
+                            $("div.living_room").css("color", "orange");
+
+                        if (room1_h >= 80)
+                            $("div.room1").css("color", "red");
+                        else if (room1_h >= 70)
+                            $("div.room1").css("color", "orange");
+
+                        if (room2_h >= 80)
+                            $("div.room2").css("color", "red");
+                        else if (room2_h >= 70)
+                            $("div.room2").css("color", "orange");
+
+                        if (room3_h >= 80)
+                            $("div.room3").css("color", "red");
+                        else if (room3_h >= 80)
+                            $("div.room3").css("color", "orange");
+
+                        $("div.living_room").html("客廳：" + living_room_t + "°C, " + living_room_h + "%");
+                        $("div.room1").html("主臥：" + room1_t + "°C, " + room1_h + "%");
+                        $("div.room2").html("客房：" + room2_t + "°C, " + room2_h + "%");
+                        $("div.room3").html("書房：" + room3_t + "°C, " + room3_h + "%");
                     }
                 });
             });
@@ -110,39 +130,24 @@
 
                             if (val[i].field3)
                                 pm10 = parseInt(val[i].field3);
-
                         }
+
+                        if (pm25 >= 40)
+                            $("div.pm25").css("color", "red");
+                        else if (pm25 >= 20)
+                            $("div.pm25").css("color", "orange");
+
+                        if (pm10 >= 40)
+                            $("div.pm10").css("color", "red");
+                        else if (pm10 >= 20)
+                            $("div.pm10").css("color", "orange");
+
                         $("div.pm25").html("PM2.5：" + pm25 + " ug/m3");
                         $("div.pm10").html("PM10：" + pm10 + " ug/m3");
                     }
                 });
             });
     </script>
-<!--
-    <div align="center">
-        <div class="xx" align="center">　</div>
-        <p>
-            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/72313/charts/1?dynamic=true&max=50&min=0&results=100&title=%E5%AE%A2%E5%BB%B3-%E6%BA%AB%E5%BA%A6&type=spline&yaxismax=40&yaxismin=20"></iframe>
-            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/72313/charts/2?dynamic=true&max=100&min=0&results=100&title=%E5%AE%A2%E5%BB%B3-%E6%BF%95%E5%BA%A6&type=spline&yaxismax=100&yaxismin=40"></iframe>
-        </p>
-        <p>
-            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/72313/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&max=100&min=0&results=100&title=DHT22+%E6%BA%AB%E5%BA%A6%28%E4%B8%BB%E8%87%A5%29&type=spline&yaxismax=40&yaxismin=20"></iframe>
-            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/72313/charts/4?dynamic=true&max=100&min=0&results=100&title=%E4%B8%BB%E8%87%A5-%E6%BF%95%E5%BA%A6&type=spline&yaxismax=100&yaxismin=50"></iframe>
-        </p>
-        <p>
-            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/72313/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&max=50&min=0&results=100&title=%E5%AE%A2%E6%88%BF-%E6%BA%AB%E5%BA%A6&type=spline&yaxismax=40&yaxismin=20"></iframe>
-            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/72313/charts/6?bgcolor=%23ffffff&color=%23d62020&dynamic=true&max=100&min=0&results=100&title=%E5%AE%A2%E6%88%BF-%E6%BF%95%E5%BA%A6&type=spline&yaxismax=100&yaxismin=50"></iframe>
-        </p>
-        <p>
-            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/72313/charts/7?bgcolor=%23ffffff&color=%23d62020&dynamic=true&max=50&min=0&results=100&title=%E6%9B%B8%E6%88%BF-%E6%BA%AB%E5%BA%A6&type=spline&yaxismax=40&yaxismin=20"></iframe>
-            <iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/72313/charts/8?bgcolor=%23ffffff&color=%23d62020&dynamic=true&max=100&min=0&results=100&title=%E6%9B%B8%E6%88%BF-%E6%BF%95%E5%BA%A6&type=spline&yaxismax=100&yaxismin=50"></iframe>
-        </p>
-		<p>
-			<iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/72839/charts/2?dynamic=false&title=PM2.5&type=spline"></iframe>
-			<iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/72839/charts/3?dynamic=false&title=PM10&type=spline"></iframe>
-		</p>
-    </div>
--->
 </body>
 
 </html>
