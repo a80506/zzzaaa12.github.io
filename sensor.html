@@ -94,7 +94,7 @@
 
                         if (living_room_h >= 80)
                             $("div.living_room").css("color", "red");
-                        else (living_room_h >= 70)
+                        else if (living_room_h >= 70)
                             $("div.living_room").css("color", "orange");
 
                         if (room1_h >= 80)
@@ -109,7 +109,7 @@
 
                         if (room3_h >= 80)
                             $("div.room3").css("color", "red");
-                        else if (room3_h >= 80)
+                        else if (room3_h >= 70)
                             $("div.room3").css("color", "orange");
 
                         $("div.living_room").html("客廳：" + living_room_t + "°C, " + living_room_h + "%");
