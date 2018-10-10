@@ -62,6 +62,7 @@
             <a href="sensor2.html">圖表</a>
         </p>
     </div>
+    <div class="time" align="center">00:00:00</div>
 
     <script>
         var max = 20;
@@ -147,7 +148,9 @@
                     }
                 });
             });
-		setTimeout(function () { window.location = window.location; }, 300000);
+        setTimeout(function () { window.location = window.location; }, 300000);
+        var d = new Date();
+        $("div.time").html(d.toLocaleTimeString("en-US", { hour12: false }));
     </script>
 </body>
 
