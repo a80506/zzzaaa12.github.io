@@ -247,6 +247,7 @@
     var pm25 = 0
     var plant_level = -1, plant_water_times = -1;
 
+    /* DHT22 Sensor */
     $.getJSON("https://api.thingspeak.com/channels/72313/feeds.json?results=" + String(max),
         function (data) {
             $.each(data, function (key, val) {
@@ -295,6 +296,7 @@
             });
         });
 
+    /* Air Sensor */
     $.getJSON("https://api.thingspeak.com/channels/72839/feeds.json?results=" + String(max),
         function (data) {
             $.each(data, function (key, val) {
@@ -314,6 +316,7 @@
             });
         });
 
+    /* Cryptocurrency */
     $.getJSON("https://api.coinmarketcap.com/v2/ticker/?convert=TWD&limit=20",
         function (data) {
             for (var key in data.data) {
@@ -350,4 +353,6 @@
             }
         });
 
+    /* Auto Reload */
+    setTimeout(function () { window.location = window.location; }, 300000);
 </script>
