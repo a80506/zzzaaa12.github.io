@@ -55,6 +55,7 @@
     <div class="room1" align="center">主臥：00°C, 00%</div>
     <div class="room2" align="center">客房：00°C, 00%</div>
     <div class="room3" align="center">書房：00°C, 00%</div>
+    <div class="balcony" align="center">陽台：00°C, 00%</div>
     <div class="pm25" align="center">PM2.5：00 ug/m3</div>
     <div class="pm10" align="center">PM10：00 ug/m3</div>
     <div align="center">
@@ -70,6 +71,7 @@
         var room1_t = 0, room1_h = 0;
         var room2_t = 0, room2_h = 0;
         var room3_t = 0, room3_h = 0;
+        var balcony_t = 0, balcony_h = 0;
         var plant_level = -1, plant_water_times = -1;
         var pm25 = 0, pm10 = 0;
 
@@ -79,8 +81,8 @@
                     if (key == "feeds") {
                         for (var i = 0; i < max; i++) {
                             if (val[i].field1 && val[i].field2) {
-                                living_room_t = val[i].field1;
-                                living_room_h = val[i].field2;
+                                living_room_t = parseInt(val[i].field1);
+                                living_room_h = parseInt(val[i].field2);
                             } else if (val[i].field3 && val[i].field4) {
                                 room1_t = parseInt(val[i].field3);
                                 room1_h = parseInt(val[i].field4);
@@ -121,6 +123,26 @@
                 });
             });
 
+        $.getJSON("https://api.thingspeak.com/channels/565880/feeds.json?results=" + String(max),
+        function (data) {
+            $.each(data, function (key, val) {
+                if (key == "feeds") {
+                    for (var i = 0; i < max; i++) {
+                        if (val[i].field1 && val[i].field2) {
+                            balcony_t = parseInt(val[i].field1);
+                            balcony_h = parseInt(val[i].field2);
+                        }
+                    }
+                    if (balcony_h >= 80)
+                        $("div.balcony").css("color", "red");
+                    else if (balcony_h >= 70)
+                        $("div.balcony").css("color", "orange");
+
+                    $("div.balcony").html("陽台：" + balcony_t + "°C, " + balcony_h + "%");
+                }
+            });
+        });
+        
         $.getJSON("https://api.thingspeak.com/channels/72839/feeds.json?results=" + String(max),
             function (data) {
                 $.each(data, function (key, val) {
