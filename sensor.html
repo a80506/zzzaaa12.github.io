@@ -93,22 +93,30 @@
                             }
                         }
 
-                        if (living_room_h >= 80)
+                        if (living_room_h == 0)
+                            $("div.living_room").css("color", "pink");
+                        else if (living_room_h >= 80)
                             $("div.living_room").css("color", "red");
                         else if (living_room_h >= 70)
                             $("div.living_room").css("color", "orange");
 
-                        if (room1_h >= 80)
+                        if (room1_h == 0)
+                            $("div.room1").css("color", "red");
+                        else if (room1_h >= 80)
                             $("div.room1").css("color", "red");
                         else if (room1_h >= 70)
                             $("div.room1").css("color", "orange");
 
-                        if (room2_h >= 80)
+                        if (room2_h == 0)
+                            $("div.room2").css("color", "pink");
+                        else if (room2_h >= 80)
                             $("div.room2").css("color", "red");
                         else if (room2_h >= 70)
                             $("div.room2").css("color", "orange");
 
-                        if (room3_h >= 80)
+                        if (room3_h == 0)
+                            $("div.room3").css("color", "pink");
+                        else if (room3_h >= 80)
                             $("div.room3").css("color", "red");
                         else if (room3_h >= 70)
                             $("div.room3").css("color", "orange");
@@ -131,7 +139,10 @@
                             balcony_h = parseInt(val[i].field2);
                         }
                     }
-                    if (balcony_h >= 80)
+                    
+                    if (balcony_h == 0)
+                        $("div.balcony").css("color", "pink");
+                    else if (balcony_h >= 80)
                         $("div.balcony").css("color", "red");
                     else if (balcony_h >= 70)
                         $("div.balcony").css("color", "orange");
