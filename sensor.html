@@ -72,7 +72,16 @@
         var balcony_t = 0, balcony_h = 0;
         var plant_level = -1, plant_water_times = -1;
         var pm25 = 0, pm10 = 0;
+        var green = "#80FF00";
 
+        $("div.living_room").css("color", "pink");
+        $("div.room1").css("color", "pink");
+        $("div.room2").css("color", "pink");
+        $("div.room3").css("color", "pink");
+        $("div.balcony").css("color", "pink");
+        $("div.pm25").css("color", "pink");
+        $("div.pm10").css("color", "pink");
+        
         $.getJSON("https://api.thingspeak.com/channels/72313/feeds.json?results=" + String(max),
             function (data) {
                 $.each(data, function (key, val) {
@@ -99,13 +108,17 @@
                             $("div.living_room").css("color", "red");
                         else if (living_room_h >= 70)
                             $("div.living_room").css("color", "orange");
+                        else
+                            $("div.living_room").css("color", green);
 
                         if (room1_h == 0)
-                            $("div.room1").css("color", "red");
+                            $("div.room1").css("color", "pink");
                         else if (room1_h >= 80)
                             $("div.room1").css("color", "red");
                         else if (room1_h >= 70)
                             $("div.room1").css("color", "orange");
+                        else
+                            $("div.room1").css("color", green);
 
                         if (room2_h == 0)
                             $("div.room2").css("color", "pink");
@@ -113,6 +126,8 @@
                             $("div.room2").css("color", "red");
                         else if (room2_h >= 70)
                             $("div.room2").css("color", "orange");
+                        else
+                            $("div.room2").css("color", green);
 
                         if (room3_h == 0)
                             $("div.room3").css("color", "pink");
@@ -120,6 +135,8 @@
                             $("div.room3").css("color", "red");
                         else if (room3_h >= 70)
                             $("div.room3").css("color", "orange");
+                        else
+                            $("div.room3").css("color", green);
 
                         $("div.living_room").html("客廳：" + living_room_t + "°C, " + living_room_h + "%");
                         $("div.room1").html("主臥：" + room1_t + "°C, " + room1_h + "%");
@@ -139,13 +156,15 @@
                             balcony_h = parseInt(val[i].field2);
                         }
                     }
-                    
+
                     if (balcony_h == 0)
                         $("div.balcony").css("color", "pink");
                     else if (balcony_h >= 80)
                         $("div.balcony").css("color", "red");
                     else if (balcony_h >= 70)
                         $("div.balcony").css("color", "orange");
+                    else
+                        $("div.balcony").css("color", green);
 
                     $("div.balcony").html("陽台：" + balcony_t + "°C, " + balcony_h + "%");
                 }
@@ -168,11 +187,15 @@
                             $("div.pm25").css("color", "red");
                         else if (pm25 >= 20)
                             $("div.pm25").css("color", "orange");
+                        else
+                            $("div.pm25").css("color", green);
 
                         if (pm10 >= 40)
                             $("div.pm10").css("color", "red");
                         else if (pm10 >= 20)
                             $("div.pm10").css("color", "orange");
+                        else
+                            $("div.pm10").css("color", green);
 
                         $("div.pm25").html("PM2.5：" + pm25 + " ug/m3");
                         $("div.pm10").html("PM10：" + pm10 + " ug/m3");
