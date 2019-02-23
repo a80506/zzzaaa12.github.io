@@ -74,13 +74,13 @@
         var pm25 = 0, pm10 = 0;
         var green = "#80FF00";
 
-        $("div.living_room").css("color", "pink");
-        $("div.room1").css("color", "pink");
-        $("div.room2").css("color", "pink");
-        $("div.room3").css("color", "pink");
-        $("div.balcony").css("color", "pink");
-        $("div.pm25").css("color", "pink");
-        $("div.pm10").css("color", "pink");
+        $("div.living_room").css("color", "white");
+        $("div.room1").css("color", "white");
+        $("div.room2").css("color", "white");
+        $("div.room3").css("color", "white");
+        $("div.balcony").css("color", "white");
+        $("div.pm25").css("color", "white");
+        $("div.pm10").css("color", "white");
         
         $.getJSON("https://api.thingspeak.com/channels/72313/feeds.json?results=" + String(max),
             function (data) {
@@ -103,7 +103,7 @@
                         }
 
                         if (living_room_h == 0)
-                            $("div.living_room").css("color", "pink");
+                            $("div.living_room").css("color", "white");
                         else if (living_room_h >= 80)
                             $("div.living_room").css("color", "red");
                         else if (living_room_h >= 70)
@@ -112,7 +112,7 @@
                             $("div.living_room").css("color", green);
 
                         if (room1_h == 0)
-                            $("div.room1").css("color", "pink");
+                            $("div.room1").css("color", "white");
                         else if (room1_h >= 80)
                             $("div.room1").css("color", "red");
                         else if (room1_h >= 70)
@@ -121,7 +121,7 @@
                             $("div.room1").css("color", green);
 
                         if (room2_h == 0)
-                            $("div.room2").css("color", "pink");
+                            $("div.room2").css("color", "white");
                         else if (room2_h >= 80)
                             $("div.room2").css("color", "red");
                         else if (room2_h >= 70)
@@ -130,7 +130,7 @@
                             $("div.room2").css("color", green);
 
                         if (room3_h == 0)
-                            $("div.room3").css("color", "pink");
+                            $("div.room3").css("color", "white");
                         else if (room3_h >= 80)
                             $("div.room3").css("color", "red");
                         else if (room3_h >= 70)
@@ -158,7 +158,7 @@
                     }
 
                     if (balcony_h == 0)
-                        $("div.balcony").css("color", "pink");
+                        $("div.balcony").css("color", "white");
                     else if (balcony_h >= 80)
                         $("div.balcony").css("color", "red");
                     else if (balcony_h >= 70)
