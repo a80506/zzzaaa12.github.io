@@ -19,6 +19,12 @@
             font-size: 80pt;
             font-weight: bold;
         }
+        
+        div.btc {
+            color: #FFFFFF;
+            font-size: 80pt;
+            font-weight: bold;
+        }
     </style>
     <style type="text/css"></style>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
@@ -34,8 +40,8 @@
     <div class="balcony" align="center">陽台：00°C, 00%</div>
     <div class="pm25" align="center">PM2.5：00 ug/m3</div>
     <div class="pm10" align="center">PM10：00 ug/m3</div>
-    <div class="xx" align="center">　</div>
     <div class="time" align="center">00:00:00</div>
+    <div class="btc" align="center">　</div>
 
     <script>
         var max = 20;
@@ -176,6 +182,29 @@
                     }
                 });
             });
+            
+            /* Cryptocurrency */
+            $.getJSON("https://api.coinmarketcap.com/v2/ticker/?convert=TWD&limit=20",
+            function (data) {
+                for (var key in data.data) {
+                    var coin = data.data[key];
+                    var percentage = coin.quotes.USD.percent_change_24h;
+                    var price = parseInt(coin.quotes.USD.price);
+                    var color = "red";
+
+                    if (coin.name == "Bitcoin") {
+                        div = "div.btc";
+                        $('div.btc').html(price);
+                    } else {
+                        continue;
+                    }
+
+                    if (percentage > 5 || percentage < -5)
+                        $("div.btc").css("color", "red");
+
+                }
+            });
+    
         setTimeout(function () { window.location = window.location; }, 300000);
         var d = new Date();
         $("div.time").html(d.toLocaleTimeString("en-US", { hour12: false }));
