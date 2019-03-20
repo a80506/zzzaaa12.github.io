@@ -20,7 +20,7 @@
             font-weight: bold;
         }
         
-        div.btc {
+        div.coin {
             color: #FFFFFF;
             font-size: 70pt;
         }
@@ -41,7 +41,7 @@
     <div class="pm10" align="center">PM10：00 ug/m3</div>
     <p></p>
     <div class="time" align="center">00:00:00</div>
-    <div class="btc" align="center">　</div>
+    <div class="coin" align="center">　</div>
 
     <script>
         var max = 20;
@@ -186,6 +186,9 @@
             /* Cryptocurrency */
             $.getJSON("https://api.coinmarketcap.com/v2/ticker/?convert=TWD&limit=20",
             function (data) {
+                var price_btc = 0, price_eth = 0;
+                var percentage_btc = 0, percentage_eth = 0;
+                
                 for (var key in data.data) {
                     var coin = data.data[key];
                     var percentage = coin.quotes.USD.percent_change_24h;
@@ -193,15 +196,26 @@
                     var color = "red";
 
                     if (coin.name == "Bitcoin") {
-                        div = "div.btc";
-                        $('div.btc').html(price);
+                        price_btc = price;
+                        percentage_btc = percentage;
+                    } else if (coin.name == "Ethereum") {
+                        price_eth = price;
+                        percentage_eth = percentage;
                     } else {
                         continue;
                     }
+                    
+                    if (price_btc > 0 && price_eth > 0)
+                        break;
+                }
 
-                    if (percentage > 5 || percentage < -5)
-                        $("div.btc").css("color", "red");
+                if (price_btc > 0 && price_eth > 0) {
+                    if (percentage_btc > 5 || percentage_eth > 5)
+                        $("div.coin").css("color", "orange");
+                    else if (percentage_btc < -5 || percentage_eth < -5)
+                        $("div.coin").css("color", "red");
 
+                    $('div.coin').html(price_btc.toString() + " / " + price_eth.toString());
                 }
             });
     
