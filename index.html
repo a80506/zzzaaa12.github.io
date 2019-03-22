@@ -309,21 +309,26 @@
 
     $.getJSON("https://api.thingspeak.com/channels/565880/feeds.json?results=" + String(max),
         function (data) {
+            var timestamp = 0;
+
             $.each(data, function (key, val) {
                 if (key == "feeds") {
                     for (var i = 0; i < max; i++) {
                         if (val[i].field1 && val[i].field2) {
+                            timestamp = Date.parse(val[i].created_at);
                             balcony_t = parseInt(val[i].field1);
                             balcony_h = parseInt(val[i].field2);
                         }
                     }
-                    
-                    if (balcony_h == 0)
+   
+                    if (balcony_h == 0 || Date.now() - timestamp > 1800000){ // 1800000 = 0.5 hour
                         $("div.balcony").css("color", "pink");
-                    else if (balcony_h >= 80)
+                        return;
+                    } else if (balcony_h >= 80) {
                         $("div.balcony").css("color", "red");
-                    else if (balcony_h >= 70)
+                    } else if (balcony_h >= 70) {
                         $("div.balcony").css("color", "orange");
+                    }
 
                     $("div.balcony").html("陽台：" + balcony_t + "°C, " + balcony_h + "%");
                 }
@@ -333,11 +338,20 @@
     /* Air Sensor */
     $.getJSON("https://api.thingspeak.com/channels/72839/feeds.json?results=" + String(max),
         function (data) {
+            var timestamp = 0;
+
             $.each(data, function (key, val) {
                 if (key == "feeds") {
                     for (var i = 0; i < max; i++) {
-                        if (val[i].field2)
+                        if (val[i].field2) {
                             pm25 = parseInt(val[i].field2);
+                            timestamp = Date.parse(val[i].created_at)
+                        }
+                    }
+                    
+                    if (Date.now() - timestamp > 1800000){ // 1800000 = 0.5 hour
+                        $("div.pm25").css("color", "pink");
+                        return;
                     }
 
                     if (pm25 >= 40)
