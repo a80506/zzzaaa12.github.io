@@ -128,17 +128,19 @@
 
         $.getJSON("https://api.thingspeak.com/channels/565880/feeds.json?results=" + String(max),
         function (data) {
+            var timestamp = 0;
             $.each(data, function (key, val) {
                 if (key == "feeds") {
                     for (var i = 0; i < max; i++) {
                         if (val[i].field1 && val[i].field2) {
                             balcony_t = parseInt(val[i].field1);
                             balcony_h = parseInt(val[i].field2);
+                            timestamp = Date.parse(val[i].created_at);
                         }
                     }
 
-                    if (balcony_h == 0)
-                        $("div.balcony").css("color", "white");
+                    if (balcony_h == 0 || Date.now() - timestamp > 1800000) // 1800000 = 0.5 hour
+                        return;
                     else if (balcony_h >= 80)
                         $("div.balcony").css("color", "red");
                     else if (balcony_h >= 70)
@@ -154,6 +156,8 @@
         $.getJSON("https://api.thingspeak.com/channels/72839/feeds.json?results=" + String(max),
             function (data) {
                 $.each(data, function (key, val) {
+                    var timestamp = 0;
+
                     if (key == "feeds") {
                         for (var i = 0; i < max; i++) {
                             if (val[i].field2)
@@ -161,7 +165,12 @@
 
                             if (val[i].field3)
                                 pm10 = parseInt(val[i].field3);
+
+                            timestamp = Date.parse(val[i].created_at);
                         }
+
+                        if (Date.now() - timestamp > 1800000) // 1800000 = 0.5 hour
+                            return;
 
                         if (pm25 >= 40)
                             $("div.pm25").css("color", "red");
