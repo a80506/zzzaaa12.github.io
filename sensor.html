@@ -227,10 +227,16 @@
                     $('div.coin').html(price_btc.toString() + " / " + price_eth.toString());
                 }
             });
-    
+
+        function set_time() {
+            var d = new Date();
+            $("div.time").html(d.toLocaleTimeString("en-US", { hour12: false , hour: "2-digit", minute: "2-digit"}));
+            setTimeout(function () { set_time(); }, 1000);
+        }
+        
+        set_time();
         setTimeout(function () { window.location = window.location; }, 300000);
-        var d = new Date();
-        $("div.time").html(d.toLocaleTimeString("en-US", { hour12: false , hour: "2-digit", minute: "2-digit"}));
+        
     </script>
 </body>
 
