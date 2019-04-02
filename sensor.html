@@ -221,9 +221,9 @@
 
                 if (price_btc > 0 && price_eth > 0) {
                     if (percentage_btc > 5 || percentage_eth > 5)
-                        $("div.coin").css("color", "orange");
-                    else if (percentage_btc < -5 || percentage_eth < -5)
                         $("div.coin").css("color", "red");
+                    else if (percentage_btc < -5 || percentage_eth < -5)
+                        $("div.coin").css("color", green);
 
                     $('div.coin').html(price_btc.toString() + " / " + price_eth.toString());
                 }
