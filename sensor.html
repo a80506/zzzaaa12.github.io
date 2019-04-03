@@ -208,24 +208,17 @@
                     if (coin.name == "Bitcoin") {
                         price_btc = price;
                         percentage_btc = percentage;
-                    } else if (coin.name == "Ethereum") {
-                        price_eth = price;
-                        percentage_eth = percentage;
-                    } else {
-                        continue;
-                    }
-                    
-                    if (price_btc > 0 && price_eth > 0)
                         break;
+                    }
                 }
 
-                if (price_btc > 0 && price_eth > 0) {
-                    if (percentage_btc > 5 || percentage_eth > 5)
+                if (price_btc > 0) {
+                    if (percentage_btc > 3)
                         $("div.coin").css("color", "red");
-                    else if (percentage_btc < -5 || percentage_eth < -5)
+                    else if (percentage_btc < -3)
                         $("div.coin").css("color", green);
 
-                    $('div.coin').html(price_btc.toString() + " / " + price_eth.toString());
+                    $('div.coin').html(price_btc.toString());
                 }
             });
 
