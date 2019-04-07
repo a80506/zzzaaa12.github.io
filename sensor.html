@@ -21,7 +21,7 @@
         }
         
         div.coin {
-            font-size: 90pt;
+            font-size: 80pt;
             font-weight: bold;
             color: #FFFFFF;
         }
@@ -218,9 +218,9 @@
                         $("div.coin").css("color", green);
 
                     if (percentage_btc > 0)
-                        percent_str = "+" + percentage_btc.toString() + "%";
+                        percent_str = "+" + percentage_btc.toFixed(1).toString() + "%";
                     else
-                        percent_str = percentage_btc.toString() + "%";
+                        percent_str = percentage_btc.toFixed(1).toString() + "%";
 
                     $('div.coin').html(price_btc.toString() + " (" + percent_str + ")");
                 }
