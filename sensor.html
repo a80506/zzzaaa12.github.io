@@ -217,7 +217,12 @@
                     else if (percentage_btc < -3)
                         $("div.coin").css("color", green);
 
-                    $('div.coin').html(price_btc.toString());
+                    if (percentage_btc > 0)
+                        percent_str = "+" + percentage_btc.toString() + "%";
+                    else
+                        percent_str = percentage_btc.toString() + "%";
+
+                    $('div.coin').html(price_btc.toString() + " (" + percent_str + ")");
                 }
             });
 
