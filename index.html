@@ -386,10 +386,12 @@
                     continue;
                 }
 
-                if (percentage > 0) {
-                    sign = '+';
+                if (percentage == 0)
+                    color = "#FFFF00";
+                else if (percentage < 0)
                     color = "#80FF00";
-                }
+                else
+                    sign = '+';
 
                 if (parseInt(price) == 0)
                     price = price.toFixed(2);
@@ -397,7 +399,7 @@
                     price = parseInt(price);
 
                 $(div).css("color", color);
-                $(div).html(coin.symbol + ": " + String(price) + " (" + sign + parseInt(percentage) + "%)");
+                $(div).html(coin.symbol + ": " + String(price) + " (" + sign + percentage.toFixed(1) + "%)");
             }
         });
 
