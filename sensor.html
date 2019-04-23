@@ -217,6 +217,10 @@
                     else if (percentage_btc < -3)
                         $("div.coin").css("color", green);
 
+                    if (percentage_btc >= 4 || percentage_btc <= -5)
+                        $("div.coin").css("font-size", 120);
+                    else
+                        $("div.coin").css("font-size", 80);
                     if (percentage_btc > 0)
                         percent_str = "+" + percentage_btc.toFixed(1).toString() + "%";
                     else
