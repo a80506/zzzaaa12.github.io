@@ -131,7 +131,7 @@
                 { div: "usd", title: "USD: 00.00 NTD", url: "" },
                 { div: "btc", title: "BTC: 000 (+0%)", url: "" },
                 { div: "eth", title: "ETH: 000 (+0%)", url: "" },
-                { div: "iota", title: "MIOTA: 0.00 (+0%)", url: "" }
+                { div: "bch", title: "BCH: 0.00 (+0%)", url: "" }
             ]
         },
         { // [11]
@@ -380,8 +380,8 @@
                     $('div.usd').html("USD: " + String((parseFloat(coin.quotes.TWD.price) / parseFloat(coin.quotes.USD.price)).toFixed(2)) + " NTD");
                 } else if (coin.name == "Ethereum") {
                     div = "div.eth";
-                } else if (coin.name == "IOTA") {
-                    div = "div.iota";
+                } else if (coin.name == "Bitcoin Cash") {
+                    div = "div.bch";
                 } else {
                     continue;
                 }
