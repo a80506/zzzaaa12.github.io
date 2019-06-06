@@ -402,11 +402,12 @@
                     }
                 }
 
-                if (parseInt(percentage) == 0 && (percentage.toFixed(1) > -0.1 || percentage.toFixed(1) < 0.1))
+                if ((percentage < 0 && percentage > -0.1) || (percentage > 0 && percentage < 0.1))
                     color = "#FFFF00";
                 else if (percentage < 0)
                     color = "#80FF00";
-                else
+
+                if (percentage > 0)
                     sign = '+';
 
                 if (parseInt(price) < 100)
