@@ -1,0 +1,136 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Cryptocurrency Information</title>
+    <style type="text/css">
+        body {
+            font-size: 9pt;
+            background-color: #000000;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-color: #707070;
+        }
+
+        td {
+            empty-cells: show;
+            color: #FFFF00;
+            text-align: center;
+            border-color: #707070;
+        }
+
+        td.title {
+            font-weight: bolder;
+            color: #000000;
+            background-color: #FF9933;
+        }
+
+        a {
+            text-decoration: none
+        }
+
+        div {
+            color: #80FF00;
+        }
+        
+        div.time {
+            color: #FFFF00;
+            font-size: 15pt;
+        }
+    </style>
+    <style type="text/css"></style>
+</head>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+    crossorigin="anonymous"></script>
+
+<body>
+    <script>
+        var item_title = "";
+        var item_url = "";
+        var i, j;
+        document.write("<table border=\"0\" width=\"100%\" height=\"100%\" align=\"center\" valign=\"center\"><tbody><tr><td>");
+        document.write("<table border=\"0\" width=\"75%\" height=\"60%\" align=\"center\"><tbody>");
+        document.write("<tr valign=\"top\">");
+        for (i = 0; i < 5; i++) {
+            document.write("<td>");
+            document.write("<table border=\"1\" width=\"180\" height=\"500\" ><tbody>");
+            //document.write("<tr><td class=\"title\">" + "TOP "+ (1+i*20).toString() + " ~ " + ((i+1)*20).toString() + "</td></tr>");
+
+            for (j = 0; j < 4; j++) {
+                item_title = "";
+                item_url = "";
+                item_div = "";
+                document.write("<tr><td><div class=\"" + "rank_"+(j*5+i+1).toString() + "\">" + "</div></td></tr>");
+            }
+
+            document.write("</tbody></table>");
+            document.write("</td>");
+
+
+        }
+        document.write("</tr>");
+        document.write("</tbody></table>");
+        document.write("<div class=\"time\" align=\"center\">00:00:00</div>");
+        document.write("</td></tr></tbody></table>");
+    </script>
+
+
+</body>
+
+</html>
+<script>
+    /* Cryptocurrency */
+    $.getJSON("https://api.coinmarketcap.com/v2/ticker/",
+        function (data) {
+            var count = 0;
+            var i = 0
+            for (var key in data.data) {
+                var coin = data.data[key];
+                var percentage = coin.quotes.USD.percent_change_24h;
+                var price = parseFloat(coin.quotes.USD.price);
+                var div = '';
+                var sign = '';
+                var color = "red";
+                var url = "https://coinmarketcap.com/currencies/" + coin.website_slug;
+                var graph_url = "https://s2.coinmarketcap.com/generated/sparklines/web/7d/usd/" + coin.id.toString() + ".png"
+
+                if (coin.rank > 20)
+                    continue;
+
+                div = "div.rank_" + coin.rank.toString();
+
+                if (percentage == 0)
+                    color = "#FFFF00";
+                else if (percentage < 0)
+                    color = "#80FF00";
+                else
+                    sign = '+';
+
+                if (percentage >= 5)
+                    $(div).css("font-weight","bold");
+                    
+                if (percentage >= 10)
+                    percentage = parseInt(percentage);
+                else
+                    percentage = percentage.toFixed(1)
+
+                if (parseInt(price) < 100)
+                    price = price.toFixed(2);
+                else
+                    price = parseInt(price);
+                
+                $(div).html("<font color=\"white\">["+ coin.rank.toString() +"] </font><a href="+ url + "><font color="+ color +">" + coin.symbol + ": " + String(price) + " (" + sign + percentage + "%)</font><br><img src=" + graph_url + "></a>");
+            }
+        });
+
+    function set_time() {
+        var d = new Date();
+        $("div.time").html(d.getFullYear() + "." + ("0" + (d.getMonth() + 1)).slice(-2) + "." + ("0" + (d.getDate() + 1)).slice(-2) + " " + d.toLocaleTimeString("en-US", { hour12: false , hour: "2-digit", minute: "2-digit"}));
+    }
+        
+        set_time();
+    /* Auto Reload */
+    setTimeout(function () { window.location = window.location; }, 300000);
+</script>
