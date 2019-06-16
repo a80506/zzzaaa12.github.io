@@ -196,6 +196,11 @@
         /* Cryptocurrency */
         function get_coin() {
             var price_btc = 0;
+            $.getJSON("https://www.bitstamp.net/api/ticker/",
+                function (data) {
+                    price_btc = parseInt(data.last).toString();
+                });
+
             $.getJSON("https://api.coinmarketcap.com/v2/ticker/?convert=TWD&limit=20",
             function (data) {
                 var percentage_btc = 0, percentage_eth = 0;
@@ -207,13 +212,16 @@
                     var color = "red";
 
                     if (coin.name == "Bitcoin") {
-                        price_btc = price;
+                        if (price_btc <= 0)
+                            price_btc = price;
                         percentage_btc = percentage;
                         break;
                     }
                 }
 
                 if (price_btc > 0) {
+                    if (price_btc >= 10000)
+                        $("div.coin").css("font-size", "90pt");
                     if (percentage_btc > 3)
                         $("div.coin").css("color", "red");
                     else if (percentage_btc > 0)
@@ -222,13 +230,6 @@
                         $("div.coin").css("color", green);
                     else if (percentage_btc < 0)
                         $("div.coin").css("color", "#CCFF99");
-
-/*
-                    if (percentage_btc >= 5 || percentage_btc <= -5)
-                        $("div.coin").css("font-size", "100pt");
-                    else
-                        $("div.coin").css("font-size", "90pt");
-*/
                     
                     if (percentage_btc >= 9)
                         percent_str = "+" + praseInt(percentage_btc).toString() + "%";
@@ -239,13 +240,9 @@
                     else
                         percent_str = percentage_btc.toFixed(1).toString() + "%";
 
-                    $.getJSON("https://www.bitstamp.net/api/ticker/",
-                    function (data2) {
-                        price_btc = parseInt(data2.last).toString();
-                        $('div.coin').html(price_btc.toString() + " (" + percent_str + ")");
-                    }) .fail(function() {
-                        get_coin();
-                    });
+
+                    $('div.coin').html(price_btc.toString() + " (" + percent_str + ")");
+                    setTimeout(function () { get_coin(); }, 30000);
                 }
             });
         }
