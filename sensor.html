@@ -24,6 +24,7 @@
         div.coin {
             font-size: 100pt;
             color: #FFFFFF;
+            font-weight: bold;
         }
     </style>
     <style type="text/css"></style>
@@ -192,10 +193,11 @@
                 });
             });
             
-            /* Cryptocurrency */
+        /* Cryptocurrency */
+        function get_coin() {
+            var price_btc = 0;
             $.getJSON("https://api.coinmarketcap.com/v2/ticker/?convert=TWD&limit=20",
             function (data) {
-                var price_btc = 0, price_eth = 0;
                 var percentage_btc = 0, percentage_eth = 0;
                 
                 for (var key in data.data) {
@@ -237,16 +239,24 @@
                     else
                         percent_str = percentage_btc.toFixed(1).toString() + "%";
 
-                    $('div.coin').html(price_btc.toString() + " (" + percent_str + ")");
+                    $.getJSON("https://www.bitstamp.net/api/ticker/",
+                    function (data2) {
+                        price_btc = parseInt(data2.last).toString();
+                        $('div.coin').html(price_btc.toString() + " (" + percent_str + ")");
+                    }) .fail(function() {
+                        get_coin();
+                    });
                 }
             });
+        }
 
         function set_time() {
             var d = new Date();
             $("div.time").html(d.toLocaleTimeString("en-US", { hour12: false , hour: "2-digit", minute: "2-digit"}));
             setTimeout(function () { set_time(); }, 1000);
+            get_coin()
         }
-        
+
         set_time();
         setTimeout(function () { window.location = window.location; }, 300000);
         
