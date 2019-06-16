@@ -254,9 +254,9 @@
             var d = new Date();
             $("div.time").html(d.toLocaleTimeString("en-US", { hour12: false , hour: "2-digit", minute: "2-digit"}));
             setTimeout(function () { set_time(); }, 1000);
-            get_coin()
         }
 
+        get_coin();
         set_time();
         setTimeout(function () { window.location = window.location; }, 300000);
         
