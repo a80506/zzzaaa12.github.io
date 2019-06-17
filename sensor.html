@@ -198,7 +198,7 @@
             var price_btc = 0;
             $.getJSON("https://www.bitstamp.net/api/ticker/",
                 function (data) {
-                    price_btc = parseInt(data.last).toString();
+                    price_btc = parseInt(data.last);
                 });
 
             $.getJSON("https://api.coinmarketcap.com/v2/ticker/?convert=TWD&limit=20",
