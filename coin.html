@@ -55,7 +55,7 @@
         document.write("<tr valign=\"top\">");
         for (i = 0; i < 5; i++) {
             document.write("<td>");
-            document.write("<table border=\"1\" width=\"180\" height=\"500\" ><tbody>");
+            document.write("<table border=\"1\" width=\"180\" height=\"500\" align=\"center\"><tbody>");
             //document.write("<tr><td class=\"title\">" + "TOP "+ (1+i*20).toString() + " ~ " + ((i+1)*20).toString() + "</td></tr>");
 
             for (j = 0; j < 4; j++) {
@@ -68,11 +68,14 @@
             document.write("</tbody></table>");
             document.write("</td>");
 
-
         }
         document.write("</tr>");
         document.write("</tbody></table>");
-        document.write("<div class=\"time\" align=\"center\">00:00:00</div>");
+        
+        document.write("<table align=\"center\"><tbody><tr><td>");
+        document.write("    <div class=\"time\">0000.00.00 00:00:00</div>");
+        document.write("</td></tr></table>");
+        
         document.write("</td></tr></tbody></table>");
     </script>
 
