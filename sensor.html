@@ -196,10 +196,6 @@
         /* Cryptocurrency */
         function get_coin() {
             var price_btc = 0;
-            $.getJSON("https://www.bitstamp.net/api/ticker/",
-                function (data) {
-                    price_btc = parseInt(data.last);
-                });
 
             $.getJSON("https://api.coinmarketcap.com/v2/ticker/?convert=TWD&limit=20",
             function (data) {
@@ -212,38 +208,35 @@
                     var color = "red";
 
                     if (coin.name == "Bitcoin") {
-                        if (price_btc <= 0)
-                            price_btc = price;
+                        price_btc = price;
                         percentage_btc = percentage;
                         break;
                     }
                 }
 
-                if (price_btc > 0) {
-                    if (price_btc >= 10000)
-                        $("div.coin").css("font-size", "90pt");
-                    if (percentage_btc > 3)
-                        $("div.coin").css("color", "red");
-                    else if (percentage_btc > 0)
-                        $("div.coin").css("color", "#FF6666");
-                    else if (percentage_btc < -3)
-                        $("div.coin").css("color", green);
-                    else if (percentage_btc < 0)
-                        $("div.coin").css("color", "#CCFF99");
-                    
-                    if (percentage_btc >= 9)
-                        percent_str = "+" + praseInt(percentage_btc).toString() + "%";
-                    else if (percentage_btc > 0)
-                        percent_str = "+" + percentage_btc.toFixed(1).toString() + "%";
-                    else if (percentage_btc < -8.5)
-                        percent_str = praseInt(percentage_btc).toString() + "%";
-                    else
-                        percent_str = percentage_btc.toFixed(1).toString() + "%";
+                if (price_btc >= 10000)
+                    $("div.coin").css("font-size", "95pt");
+                if (percentage_btc > 3)
+                    $("div.coin").css("color", "red");
+                else if (percentage_btc > 0)
+                    $("div.coin").css("color", "#FF6666");
+                else if (percentage_btc < -3)
+                    $("div.coin").css("color", green);
+                else if (percentage_btc < 0)
+                    $("div.coin").css("color", "#CCFF99");
+                
+                if (percentage_btc >= 9)
+                    percent_str = "+" + praseInt(percentage_btc).toString() + "%";
+                else if (percentage_btc > 0)
+                    percent_str = "+" + percentage_btc.toFixed(1).toString() + "%";
+                else if (percentage_btc < -8.5)
+                    percent_str = praseInt(percentage_btc).toString() + "%";
+                else
+                    percent_str = percentage_btc.toFixed(1).toString() + "%";
 
 
-                    $('div.coin').html(price_btc.toString() + " (" + percent_str + ")");
-                    setTimeout(function () { get_coin(); }, 30000);
-                }
+                $('div.coin').html(price_btc.toString() + " (" + percent_str + ")");
+                setTimeout(function () { get_coin(); }, 30000);
             });
         }
 
