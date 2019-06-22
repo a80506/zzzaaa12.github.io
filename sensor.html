@@ -214,8 +214,8 @@
                     }
                 }
 
-                if (price_btc >= 10000)
-                    $("div.coin").css("font-size", "95pt");
+//                if (price_btc >= 10000)
+//                    $("div.coin").css("font-size", "95pt");
                 if (percentage_btc > 3)
                     $("div.coin").css("color", "red");
                 else if (percentage_btc > 0)
@@ -226,11 +226,11 @@
                     $("div.coin").css("color", "#CCFF99");
                 
                 if (percentage_btc >= 9)
-                    percent_str = "+" + praseInt(percentage_btc).toString() + "%";
+                    percent_str = "+" + parseInt(percentage_btc).toString() + "%";
                 else if (percentage_btc > 0)
                     percent_str = "+" + percentage_btc.toFixed(1).toString() + "%";
                 else if (percentage_btc < -8.5)
-                    percent_str = praseInt(percentage_btc).toString() + "%";
+                    percent_str = parseInt(percentage_btc).toString() + "%";
                 else
                     percent_str = percentage_btc.toFixed(1).toString() + "%";
 
