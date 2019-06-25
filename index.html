@@ -366,7 +366,7 @@
     /* Cryptocurrency */
     $.getJSON("https://api.coinmarketcap.com/v2/ticker/?convert=TWD",
         function (data) {
-            var symbol = ["BTC", "ETH", "LTC", "EOS", "BCH", "ZEC", "XMR", "BNB", "DASH", "XLM", "IOTA", "XRP"];
+            var symbol = ["BTC", "ETH", "LTC", "EOS", "BCH", "HT", "XMR", "BNB", "DASH", "XLM", "IOTA", "XRP"];
             var count = 0;
             for (var key in data.data) {
                 var coin = data.data[key];
