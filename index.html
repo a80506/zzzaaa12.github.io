@@ -410,7 +410,9 @@
                 if (percentage > 0)
                     sign = '+';
 
-                if (parseInt(price) < 100)
+                if (price < 10)
+                    price = price.toFixed(4);
+                else if (price < 100)
                     price = price.toFixed(2);
                 else
                     price = parseInt(price);
