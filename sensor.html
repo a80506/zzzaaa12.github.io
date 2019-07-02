@@ -225,7 +225,7 @@
                 else if (percentage_btc < 0)
                     $("div.coin").css("color", "#CCFF99");
                 
-                if (percentage_btc >= 10)
+                if (price_btc >= 10000 && percentage_btc >= 10)
                     percent_str = "+" + parseInt(percentage_btc).toString() + "%";
                 else if (percentage_btc > 0)
                     percent_str = "+" + percentage_btc.toFixed(1).toString() + "%";
