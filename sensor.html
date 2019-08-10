@@ -204,6 +204,7 @@
                 for (var key in data.data) {
                     var coin = data.data[key];
                     var percentage = coin.quotes.USD.percent_change_24h;
+                    var percentage_1h = coin.quotes.USD.percent_change_1h;
                     var price = parseInt(coin.quotes.USD.price);
                     var color = "red";
 
@@ -234,10 +235,20 @@
                 else
                     percent_str = percentage_btc.toFixed(1).toString() + "%";
 
-
                 $('div.coin').html(price_btc.toString() + " (" + percent_str + ")");
+                if (percentage_1h >= 2.5 || percentage_1h <= -2.5)
+                    blink();
                 setTimeout(function () { get_coin(); }, 30000);
             });
+        }
+
+
+        function blink() {
+            var blink_msec = 600;
+            var times = 10;
+            
+            while(times--)
+                $('div.coin').fadeOut(blink_msec).fadeIn(blink_msec);
         }
 
         function set_time() {
