@@ -236,7 +236,7 @@
                     percent_str = percentage_btc.toFixed(1).toString() + "%";
 
                 $('div.coin').html(price_btc.toString() + " (" + percent_str + ")");
-                if (percentage_1h >= 2.5 || percentage_1h <= -2.5)
+                if (percentage_1h >= 2.5 || percentage_1h <= -2.5 || percentage >= 10 || percentage <= -10)
                     blink();
                 setTimeout(function () { get_coin(); }, 30000);
             });
