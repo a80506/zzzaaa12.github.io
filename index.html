@@ -19,9 +19,9 @@
                 { div: "", title: "2019記帳表", url: "https://docs.google.com/spreadsheets/d/1Z-CrjVtZtAsTKHa1B1F2FUOvg91cc1KQWSYkOwOTgEw" },
                 { div: "", title: "帳戶清單", url: "https://docs.google.com/document/d/1HelciAITnbP-pqn82F1nzGnVughprQKhoJe74DDLLt4" },
                 { div: "", title: "Evernote", url: "https://www.evernote.com" },
-                { div: "weather", title: "即時天氣 - 新莊", url: "https://www.cwb.gov.tw/V8/C/W/OBS_Station.html?ID=C0ACA" },
-                { div: "", title: "天氣預報", url: "https://www.cwb.gov.tw/V8/C/W/County/County.html?CID=63" },
-                { div: "", title: "一週氣象", url: "https://www.cwb.gov.tw/V7/forecast/week/week.htm" },
+                { div: "", title: "即時天氣", url: "https://www.cwb.gov.tw/V8/C/W/OBS_Station.html?ID=C0ACA" },
+                { div: "weather", title: "新莊：00.0°C, 00%", url: ""},
+                { div: "", title: "一週氣象", url: "https://www.cwb.gov.tw/V8/C/W/County/County.html?C=63" },
                 { div: "", title: "PM2.5", url: "https://taqm.epa.gov.tw/pm25" }
             ]
         },
@@ -233,11 +233,20 @@
         document.write("</tbody></table>");
         document.write("</td></tr></tbody></table>");
     </script>
-
-
 </body>
-
 </html>
+
+<script src="https://www.cwb.gov.tw/Data/js/Observe/Stations/C0ACA.js"></script>
+<script>
+    var cwb_t = OBS[0]['Temperature']['C']['C'];
+    var cwb_h = OBS[0]['Humidity'];
+    if (cwb_t != "" && cwb_h != "") {
+        $("div.weather").html("新莊：" + cwb_t + "°C, " + cwb_h + "%");
+        if (parseInt(cwb_h) >= 80)
+            $("div.weather").css("color", "red");
+    }
+</script>
+
 <script>
     var max = 8;
     var living_room_t = 0, living_room_h = 0;
