@@ -245,11 +245,10 @@
 
 
         function blink() {
-            var blink_msec = 600;
-            var times = 10;
+            var times = 1000;
             
             while(times--)
-                $('div.coin').fadeOut(blink_msec).fadeIn(blink_msec);
+                $('div.coin').fadeOut(1300).fadeIn(600);
         }
 
         function set_time() {
