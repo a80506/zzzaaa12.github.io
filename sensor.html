@@ -22,7 +22,7 @@
         }
         
         div.coin {
-            font-size: 100pt;
+            font-size: 90pt;
             color: #FFFFFF;
             font-weight: bold;
         }
@@ -33,12 +33,13 @@
 </head>
 
 <body>
-    <div class="xx" align="center">　</div>
+    <br />
     <div class="living_room" align="center">客廳：00°C, 00%</div>
     <div class="room1" align="center">臥室：00°C, 00%</div>
     <div class="room2" align="center">客房：00°C, 00%</div>
     <div class="room3" align="center">書房：00°C, 00%</div>
     <div class="balcony" align="center">陽台：00°C, 00%</div>
+    <div class="weather" align="center">戶外：00°C, 00%</div>
     <div class="pm25" align="center">PM2.5：00 ug/m3</div>
     <div class="pm10" align="center">PM10：00 ug/m3</div>
     <div class="time" align="center">00:00:00</div>
@@ -261,6 +262,17 @@
         set_time();
         setTimeout(function () { window.location = window.location; }, 300000);
         
+    </script>
+    
+    <script src="https://www.cwb.gov.tw/Data/js/Observe/Stations/C0ACA.js"></script>
+    <script>
+        var cwb_t = parseInt(OBS[0]['Temperature']['C']['C']).toString();
+        var cwb_h = OBS[0]['Humidity'];
+        if (cwb_t != "" && cwb_h != "") {
+            $("div.weather").html("戶外：" + cwb_t + "°C, " + cwb_h + "%");
+            if (parseInt(cwb_h) >= 80)
+                $("div.weather").css("color", "red");
+        }
     </script>
 </body>
 
