@@ -26,6 +26,10 @@
             color: #FFFFFF;
             font-weight: bold;
         }
+        
+        div.weather {
+            font-weight: bold;
+        }
     </style>
     <style type="text/css"></style>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
@@ -269,7 +273,7 @@
         var cwb_h = OBS[0]['Humidity'];
         if (cwb_t != "" && cwb_h != "") {
             $("div.weather").html("戶外：" + cwb_t + "°C, " + cwb_h + "%");
-            if (parseInt(cwb_h) >= 80)
+            if (parseInt(cwb_t) >= 33)
                 $("div.weather").css("color", "red");
         }
     </script>
