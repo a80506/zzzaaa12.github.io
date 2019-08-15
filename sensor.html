@@ -269,7 +269,7 @@
     
     <script src="https://www.cwb.gov.tw/Data/js/Observe/Stations/C0ACA.js"></script>
     <script>
-        var cwb_t = parseInt(OBS[0]['Temperature']['C']['C']).toString();
+        var cwb_t = parseFloat(OBS[0]['Temperature']['C']['C']).toString();
         var cwb_h = OBS[0]['Humidity'];
         if (cwb_t != "" && cwb_h != "") {
             $("div.weather").html("戶外：" + cwb_t + "°C, " + cwb_h + "%");
