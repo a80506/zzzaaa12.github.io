@@ -17,7 +17,7 @@
         
         div.time {
             color: #FFFF00;
-            font-size: 135pt;
+            font-size: 140pt;
             font-weight: bold;
         }
         
@@ -246,10 +246,10 @@
 
                 setTimeout(function () { get_coin(); }, 30000);
                 
-                if (percentage_1h >= 2 || percentage >= 10) {
+                if (percentage_1h >= 3 || percentage >= 10) {
                     $("div.coin").css("color", "red");
                     blink();
-                }  else if (percentage <= -2 || percentage_1h <= -10) {
+                }  else if (percentage <= -3 || percentage_1h <= -10) {
                     $("div.coin").css("color", green);
                     blink();
                 }
