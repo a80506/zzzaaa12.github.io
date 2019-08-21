@@ -243,8 +243,6 @@
                     percent_str = percentage_btc.toFixed(1).toString() + "%";
 
                 $('div.coin').html(price_btc.toString() + " (" + percent_str + ")");
-
-                setTimeout(function () { get_coin(); }, 30000);
                 
                 if (percentage_1h >= 3 || percentage >= 10) {
                     $("div.coin").css("color", "red");
