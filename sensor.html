@@ -22,7 +22,7 @@
         }
         
         div.coin {
-            font-size: 90pt;
+            font-size: 95pt;
             color: #FFFFFF;
             font-weight: bold;
         }
@@ -249,7 +249,7 @@
                 if (percentage_1h >= 3 || percentage >= 10) {
                     $("div.coin").css("color", "red");
                     blink();
-                }  else if (percentage <= -3 || percentage_1h <= -10) {
+                }  else if (percentage_1h <= -3 || percentage <= -10) {
                     $("div.coin").css("color", green);
                     blink();
                 }
