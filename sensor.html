@@ -90,41 +90,49 @@
                             }
                         }
 
-                        if (living_room_h == 0)
+                        if (living_room_h == 0) {
                             $("div.living_room").css("color", "white");
-                        else if (living_room_h >= 80)
+                        } else if (living_room_h >= 80) {
                             $("div.living_room").css("color", "red");
-                        else if (living_room_h >= 70)
+                            $("div.living_room").css("font-weight", "bold");
+                        } else if (living_room_h >= 70) {
                             $("div.living_room").css("color", "orange");
-                        else
+                        } else {
                             $("div.living_room").css("color", green);
+                        }
 
-                        if (room1_h == 0)
+                        if (room1_h == 0) {
                             $("div.room1").css("color", "white");
-                        else if (room1_h >= 80)
+                        } else if (room1_h >= 80) {
                             $("div.room1").css("color", "red");
-                        else if (room1_h >= 70)
+                            $("div.room1").css("font-weight", "bold");
+                        } else if (room1_h >= 70) {
                             $("div.room1").css("color", "orange");
-                        else
+                        } else {
                             $("div.room1").css("color", green);
+                        }
 
-                        if (room2_h == 0)
+                        if (room2_h == 0) {
                             $("div.room2").css("color", "white");
-                        else if (room2_h >= 80)
+                        } else if (room2_h >= 80) {
                             $("div.room2").css("color", "red");
-                        else if (room2_h >= 70)
+                            $("div.room2").css("font-weight", "bold");
+                        } else if (room2_h >= 70) {
                             $("div.room2").css("color", "orange");
-                        else
+                        } else {
                             $("div.room2").css("color", green);
+                        }
 
-                        if (room3_h == 0)
+                        if (room3_h == 0) {
                             $("div.room3").css("color", "white");
-                        else if (room3_h >= 80)
+                        } else if (room3_h >= 80) {
                             $("div.room3").css("color", "red");
-                        else if (room3_h >= 70)
+                            $("div.room3").css("font-weight", "bold");
+                        } else if (room3_h >= 70) {
                             $("div.room3").css("color", "orange");
-                        else
+                        } else {
                             $("div.room3").css("color", green);
+                        }
 
                         $("div.living_room").html("客廳：" + living_room_t + "°C, " + living_room_h + "%");
                         $("div.room1").html("臥室：" + room1_t + "°C, " + room1_h + "%");
@@ -147,14 +155,16 @@
                         }
                     }
 
-                    if (balcony_h == 0 || Date.now() - timestamp > 1800000) // 1800000 = 0.5 hour
+                    if (balcony_h == 0 || Date.now() - timestamp > 1800000) { // 1800000 = 0.5 hour
                         return;
-                    else if (balcony_h >= 80)
+                    } else if (balcony_h >= 80) {
                         $("div.balcony").css("color", "red");
-                    else if (balcony_h >= 70)
+                        $("div.balcony").css("font-weight", "bold");
+                    } else if (balcony_h >= 70) {
                         $("div.balcony").css("color", "orange");
-                    else
+                    } else {
                         $("div.balcony").css("color", green);
+                    }
 
                     $("div.balcony").html("陽台：" + balcony_t + "°C, " + balcony_h + "%");
                 }
@@ -180,12 +190,14 @@
                         if (Date.now() - timestamp > 1800000) // 1800000 = 0.5 hour
                             return;
 
-                        if (pm25 >= 40)
+                        if (pm25 >= 40) {
                             $("div.pm25").css("color", "red");
-                        else if (pm25 >= 20)
+                            $("div.pm25").css("font-weight", "bold");
+                        } else if (pm25 >= 20) {
                             $("div.pm25").css("color", "orange");
-                        else
+                        } else {
                             $("div.pm25").css("color", green);
+                        }
 /*
                         if (pm10 >= 40)
                             $("div.pm10").css("color", "red");
@@ -320,8 +332,16 @@
         var cwb_h = OBS[0]['Humidity'];
         if (cwb_t != "" && cwb_h != "") {
             $("div.weather").html("戶外：" + cwb_t + "°C, " + cwb_h + "%");
-            if (parseInt(cwb_t) >= 33)
+            
+            if (parseInt(cwb_h) >= 80) {
+                $("div.weather").css("color", "#46a3ff");
+                $("div.weather").css("font-weight", "bold");
+            }
+            
+            if (parseInt(cwb_t) >= 33) {
                 $("div.weather").css("color", "red");
+                $("div.weather").css("font-weight", "bold");
+            }
         }
     </script>
 </body>
