@@ -201,13 +201,13 @@
             });
             
         /* Cryptocurrency */
-        function get_coin() {
+        function get_coin_coinmarketcap() {
             var price_btc = 0;
 
             $.getJSON("https://api.coinmarketcap.com/v2/ticker/?convert=TWD&limit=20",
             function (data) {
                 var percentage_btc = 0, percentage_eth = 0;
-                
+
                 for (var key in data.data) {
                     var coin = data.data[key];
                     var percentage = coin.quotes.USD.percent_change_24h;
@@ -222,8 +222,6 @@
                     }
                 }
 
-//                if (price_btc >= 10000)
-//                    $("div.coin").css("font-size", "95pt");
                 if (percentage_btc > 3)
                     $("div.coin").css("color", "red");
                 else if (percentage_btc > 0)
@@ -254,10 +252,52 @@
             });
         }
 
+        function get_coin_bitstamp() {
+            var price = 0, open = 0;
+            var percentage;
+
+            $.getJSON("https://www.bitstamp.net/api/ticker",
+            function (data) {
+                price = parseInt(data.last);
+                open = parseInt(data.open);
+                percentage = (price - open)/open;
+
+                if (percentage.toFixed(1) == 0)
+                    percentage = 0;
+
+                if (percentage == 0)
+                    $("div.coin").css("color", "orange");
+                else if (percentage >= 0)
+                    $("div.coin").css("color", "red");
+                else
+                    $("div.coin").css("color", green);
+                
+                if (price >= 10000 && percentage >= 10)
+                    percent_str = "+" + parseInt(percentage).toString() + "%";
+                else if (percentage > 0)
+                    percent_str = "+" + percentage.toFixed(1).toString() + "%";
+                else if (percentage <= -10)
+                    percent_str = parseInt(percentage).toString() + "%";
+                else
+                    percent_str = percentage.toFixed(1).toString() + "%";
+
+                if (percentage == 0)
+                    $('div.coin').html(price.toString());
+                else
+                    $('div.coin').html(price.toString() + " (" + percent_str + ")");
+
+            });
+
+            setTimeout(function () { get_coin_bitstamp(); }, 60000);
+        }
+        
+        function get_coin() {
+            get_coin_bitstamp()
+            //get_coin_coinmarketcap();
+        }
 
         function blink() {
             var times = 1000;
-            
             while(times--)
                 $('div.coin').fadeOut(1300).fadeIn(600);
         }
@@ -270,7 +310,7 @@
 
         get_coin();
         set_time();
-        setTimeout(function () { window.location = window.location; }, 600000);
+        setTimeout(function () { window.location = window.location; }, 300000);
         
     </script>
     
