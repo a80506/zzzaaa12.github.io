@@ -336,6 +336,9 @@
             if (parseInt(cwb_h) >= 80) {
                 $("div.weather").css("color", "#46a3ff");
                 $("div.weather").css("font-weight", "bold");
+            } else if (parseInt(cwb_h) >= 70) {
+                $("div.weather").css("color", "orange");
+                $("div.weather").css("font-weight", "bold");
             }
             
             if (parseInt(cwb_t) >= 33) {
