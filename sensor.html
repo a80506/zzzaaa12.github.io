@@ -260,7 +260,7 @@
             function (data) {
                 price = parseInt(data.last);
                 open = parseInt(data.open);
-                percentage = (price - open)/open;
+                percentage = (price - open)/open * 100;
 
                 if (percentage.toFixed(1) == 0)
                     percentage = 0;
