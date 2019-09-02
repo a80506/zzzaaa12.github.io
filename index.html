@@ -260,7 +260,7 @@
     var room2_t = 0, room2_h = 0;
     var room3_t = 0, room3_h = 0;
     var balcony_t = 0, balcony_h = 0;
-    var pm25 = 0
+    var pm25 = -1
     var plant_level = -1, plant_water_times = -1;
 
     /* DHT22 Sensor */
@@ -269,6 +269,8 @@
             $.each(data, function (key, val) {
                 if (key == "feeds") {
                     for (var i = 0; i < max; i++) {
+                        if (Date.now() - Date.parse(val[i].created_at) > 1800000)
+                            continue;
                         if (val[i].field1 && val[i].field2) {
                             living_room_t = parseInt(val[i].field1);
                             living_room_h = parseInt(val[i].field2);
@@ -323,19 +325,18 @@
 
     $.getJSON("https://api.thingspeak.com/channels/565880/feeds.json?results=" + String(max),
         function (data) {
-            var timestamp = 0;
-
             $.each(data, function (key, val) {
                 if (key == "feeds") {
                     for (var i = 0; i < max; i++) {
+                        if (Date.now() - Date.parse(val[i].created_at) > 1800000)
+                            continue;
                         if (val[i].field1 && val[i].field2) {
-                            timestamp = Date.parse(val[i].created_at);
                             balcony_t = parseInt(val[i].field1);
                             balcony_h = parseInt(val[i].field2);
                         }
                     }
    
-                    if (balcony_h == 0 || Date.now() - timestamp > 1800000){ // 1800000 = 0.5 hour
+                    if (balcony_h == 0) {
                         $("div.balcony").css("color", "pink");
                         return;
                     } else if (balcony_h >= 80) {
@@ -352,23 +353,20 @@
     /* Air Sensor */
     $.getJSON("https://api.thingspeak.com/channels/72839/feeds.json?results=" + String(max),
         function (data) {
-            var timestamp = 0;
-
             $.each(data, function (key, val) {
                 if (key == "feeds") {
                     for (var i = 0; i < max; i++) {
+                        if (Date.now() - Date.parse(val[i].created_at) > 1800000)
+                            continue;
                         if (val[i].field2) {
                             pm25 = parseInt(val[i].field2);
-                            timestamp = Date.parse(val[i].created_at);
+                            braek;
                         }
                     }
                     
-                    if (Date.now() - timestamp > 1800000){ // 1800000 = 0.5 hour
-                        $("div.pm25").css("color", "pink");
+                    if (pm25 == -1)
                         return;
-                    }
-
-                    if (pm25 >= 40)
+                    else if (pm25 >= 40)
                         $("div.pm25").css("color", "red");
                     else if (pm25 >= 20)
                         $("div.pm25").css("color", "orange");
