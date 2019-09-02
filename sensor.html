@@ -75,6 +75,9 @@
                 $.each(data, function (key, val) {
                     if (key == "feeds") {
                         for (var i = 0; i < max; i++) {
+                            if (Date.now() - Date.parse(val[i].created_at) > 1800000)
+                                continue;
+                            
                             if (val[i].field1 && val[i].field2) {
                                 living_room_t = parseInt(val[i].field1);
                                 living_room_h = parseInt(val[i].field2);
