@@ -270,6 +270,12 @@
         function get_coin_bitstamp() {
             var price = 0, open = 0;
             var percentage;
+            var eth_price = 0;
+            
+            $.getJSON("https://www.bitstamp.net/api/v2/ticker/ethusd",
+            function (data) {
+                eth_price = parseInt(data.last);
+            });
 
             $.getJSON("https://www.bitstamp.net/api/ticker",
             function (data) {
@@ -296,11 +302,12 @@
                 else
                     percent_str = percentage.toFixed(1).toString() + "%";
 
-                if (percentage == 0)
+                if (eth_price > 0)
+                    $('div.coin').html(price.toString() + ' / ' + eth_price.toString());
+                else if (percentage == 0)
                     $('div.coin').html(price.toString());
                 else
                     $('div.coin').html(price.toString() + " (" + percent_str + ")");
-
             });
 
             setTimeout(function () { get_coin_bitstamp(); }, 60000);
