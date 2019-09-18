@@ -276,6 +276,13 @@
             function (data) {
                 eth_price = parseInt(data.last);
             });
+            
+            if (eth_price == 0) {
+                $.getJSON("https://www.bitstamp.net/api/v2/ticker/ethusd",
+                function (data) {
+                    eth_price = parseInt(data.last);
+                });
+            }
 
             $.getJSON("https://www.bitstamp.net/api/ticker",
             function (data) {
