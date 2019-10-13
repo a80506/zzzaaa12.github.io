@@ -280,7 +280,7 @@
             if (eth_price == 0) {
                 $.getJSON("https://www.bitstamp.net/api/v2/ticker/ethusd",
                 function (data) {
-                    eth_price = parseInt(data.last);
+                    eth_price = parseFloat(data.last).toFixed(2);
                 });
             }
 
