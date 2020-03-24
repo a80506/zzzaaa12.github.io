@@ -376,64 +376,25 @@
             });
         });
 
-    /* Cryptocurrency */
-    $.getJSON("https://api.coinmarketcap.com/v2/ticker/?convert=TWD",
-        function (data) {
-            var symbol = ["BTC", "ETH", "LTC", "EOS", "BCH", "HT", "XMR", "BNB", "DASH", "XLM", "IOTA", "XRP"];
-            var count = 0;
-            for (var key in data.data) {
-                var coin = data.data[key];
-                var percentage = coin.quotes.USD.percent_change_24h;
-                var price = parseFloat(coin.quotes.USD.price);
-                var div = '';
-                var sign = '';
-                var color = "red";
+	function get_bitstamp(item) {
+		$.getJSON("https://www.bitstamp.net/api/v2/ticker/" + String(item).toLowerCase() + "usd",
+			function (data) {
+				$("div." + item.toUpperCase()).html(item.toUpperCase()+ ": " + String(data.last));
+			})
+			.fail(function() {
+				$.getJSON("https://www.bitstamp.net/api/v2/ticker/" + String(item).toLowerCase() + "usd",
+					function (data) {
+						$("div." + item.toUpperCase()).html(item.toUpperCase()+ ": " + String(data.last));
+				})
+			}
+		);
+	}
 
-                if (coin.symbol == "BTC") {
-                    div = "div.BTC";
-                    $('div.USD').html("USD: " + String((parseFloat(coin.quotes.TWD.price) / parseFloat(coin.quotes.USD.price)).toFixed(2)) + " NTD");
-                    $('div.USD').css("color", "#FFFFFF");
-                    
-                } else if (coin.symbol == "MIOTA") {
-                    div = "div.IOTA";
-                    coin.symbol = "IOTA";
-
-                } else if (coin.symbol == "XMR") {
-                    div = "div.XMR";
-                    coin.symbol = "Monero";
-
-                } else if (coin.symbol == "XLM") {
-                    div = "div.XLM";
-                    coin.symbol = "Stellar";
-
-                } else {
-                    for (var i in symbol) {
-                        if (coin.symbol == symbol[i]) {
-                            div = "div." + symbol[i];
-                            break;
-                        }
-                    }
-                }
-
-                if ((percentage < 0 && percentage > -0.094) || (percentage > 0 && percentage < 0.094))
-                    color = "#FFFF00";
-                else if (percentage < 0)
-                    color = "#80FF00";
-
-                if (percentage > 0)
-                    sign = '+';
-
-                if (price < 10)
-                    price = price.toFixed(4);
-                else if (price < 100)
-                    price = price.toFixed(2);
-                else
-                    price = parseInt(price);
-
-                $(div).css("color", color);
-                $(div).html(coin.symbol + ": " + String(price));// + " (" + sign + percentage.toFixed(1) + "%)");
-            }
-        });
+	get_bitstamp("BTC");
+	get_bitstamp("ETH");
+	get_bitstamp("BCH");
+	get_bitstamp("LTC");
+	get_bitstamp("XRP");
 
     /* Auto Reload */
     setTimeout(function () { window.location = window.location; }, 300000);
