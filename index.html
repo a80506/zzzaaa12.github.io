@@ -259,7 +259,7 @@
     var room1_t = 0, room1_h = 0;
     var room2_t = 0, room2_h = 0;
     var room3_t = 0, room3_h = 0;
-    var balcony_t = 0, balcony_h = 0;
+    var light = 0;
     var pm25 = -1
     var plant_level = -1, plant_water_times = -1;
 
@@ -330,22 +330,10 @@
                     for (var i = 0; i < max; i++) {
                         if (Date.now() - Date.parse(val[i].created_at) > 1800000)
                             continue;
-                        if (val[i].field1 && val[i].field2) {
-                            balcony_t = parseInt(val[i].field1);
-                            balcony_h = parseInt(val[i].field2);
-                        }
+                        if (val[i].field1)
+                            light = parseInt(val[i].field1);
                     }
-   
-                    if (balcony_h == 0) {
-                        $("div.balcony").css("color", "pink");
-                        return;
-                    } else if (balcony_h >= 80) {
-                        $("div.balcony").css("color", "red");
-                    } else if (balcony_h >= 70) {
-                        $("div.balcony").css("color", "orange");
-                    }
-
-                    $("div.balcony").html("陽台：" + balcony_t + "°C, " + balcony_h + "%");
+                    $("div.balcony").html("亮度：" + light);
                 }
             });
         });
