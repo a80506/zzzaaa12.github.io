@@ -337,32 +337,44 @@
             setTimeout(function () { set_time(); }, 1000);
         }
 
+        $.getJSON("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/O-A0001-001?Authorization=CWB-12B94A22-65C1-430B-8703-8CB21070F397&downloadType=WEB&format=JSON",
+        function (data) {
+            var cwb_t = "";
+            var cwb_h = "";
+            var found = 0;
+            
+            for (var x in data.cwbopendata.location) {
+                if (found)
+                    break;
+                if (data.cwbopendata.location[x].locationName == "新莊") {
+                    for (var y in data.cwbopendata.location[x].weatherElement) {
+                        if (data.cwbopendata.location[x].weatherElement[y].elementName == "TEMP")
+                            cwb_t = data.cwbopendata.location[x].weatherElement[y].elementValue.value;
+                        else if (data.cwbopendata.location[x].weatherElement[y].elementName == "HUMD")
+                            cwb_h = data.cwbopendata.location[x].weatherElement[y].elementValue.value;
+        
+                        if (cwb_t != "" && cwb_h != "") {
+                            $("div.weather").html("新莊：" + cwb_t + "°C, " + String(parseFloat(cwb_h)*100) + "%");
+                            if (parseInt(cwb_h) >= 80) {
+                                $("div.weather").css("color", "#46a3ff");
+                                $("div.weather").css("font-weight", "bold");
+                            }
+                            if (parseInt(cwb_t) >= 33) {
+                                $("div.weather").css("color", "red");
+                                $("div.weather").css("font-weight", "bold");
+                            }
+                            found = 1;
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+        
         get_coin();
         set_time();
         setTimeout(function () { window.location = window.location; }, 300000);
         
-    </script>
-    
-    <script src="https://www.cwb.gov.tw/Data/js/Observe/Stations/C0ACA.js"></script>
-    <script>
-        var cwb_t = parseFloat(OBS[0]['Temperature']['C']['C']).toString();
-        var cwb_h = OBS[0]['Humidity']['C'];
-        if (cwb_t != "" && cwb_h != "") {
-            $("div.weather").html("戶外：" + cwb_t + "°C, " + cwb_h + "%");
-            
-            if (parseInt(cwb_h) >= 80) {
-                $("div.weather").css("color", "#46a3ff");
-                $("div.weather").css("font-weight", "bold");
-            } else if (parseInt(cwb_h) >= 70) {
-                $("div.weather").css("color", "orange");
-                $("div.weather").css("font-weight", "bold");
-            }
-            
-            if (parseInt(cwb_t) >= 33) {
-                $("div.weather").css("color", "red");
-                $("div.weather").css("font-weight", "bold");
-            }
-        }
     </script>
 </body>
 
