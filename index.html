@@ -236,23 +236,6 @@
 </body>
 </html>
 
-<script src="https://www.cwb.gov.tw/Data/js/Observe/Stations/C0ACA.js"></script>
-<script>
-    var cwb_t = OBS[0]['Temperature']['C']['C'];
-    var cwb_h = OBS[0]['Humidity']['C'];
-    if (cwb_t != "" && cwb_h != "") {
-        $("div.weather").html("新莊：" + cwb_t + "°C, " + cwb_h + "%");
-        if (parseInt(cwb_h) >= 80) {
-            $("div.weather").css("color", "#46a3ff");
-            $("div.weather").css("font-weight", "bold");
-        }
-        if (parseInt(cwb_t) >= 33) {
-            $("div.weather").css("color", "red");
-            $("div.weather").css("font-weight", "bold");
-        }
-    }
-</script>
-
 <script>
     var max = 8;
     var living_room_t = 0, living_room_h = 0;
@@ -262,6 +245,40 @@
     var light = 0;
     var pm25 = -1
     var plant_level = -1, plant_water_times = -1;
+
+    $.getJSON("https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/O-A0001-001?Authorization=CWB-12B94A22-65C1-430B-8703-8CB21070F397&downloadType=WEB&format=JSON",
+    function (data) {
+        var cwb_t = "";
+        var cwb_h = "";
+        var found = 0;
+        
+        for (var x in data.cwbopendata.location) {
+            if (found)
+                break;
+            if (data.cwbopendata.location[x].locationName == "新莊") {
+                for (var y in data.cwbopendata.location[x].weatherElement) {
+                    if (data.cwbopendata.location[x].weatherElement[y].elementName == "TEMP")
+                        cwb_t = data.cwbopendata.location[x].weatherElement[y].elementValue.value;
+                    else if (data.cwbopendata.location[x].weatherElement[y].elementName == "HUMD")
+                        cwb_h = data.cwbopendata.location[x].weatherElement[y].elementValue.value;
+    
+                    if (cwb_t != "" && cwb_h != "") {
+                        $("div.weather").html("新莊：" + cwb_t + "°C, " + String(parseFloat(cwb_h)*100) + "%");
+                        if (parseInt(cwb_h) >= 80) {
+                            $("div.weather").css("color", "#46a3ff");
+                            $("div.weather").css("font-weight", "bold");
+                        }
+                        if (parseInt(cwb_t) >= 33) {
+                            $("div.weather").css("color", "red");
+                            $("div.weather").css("font-weight", "bold");
+                        }
+                        found = 1;
+                        break;
+                    }
+                }
+            }
+        }
+    });
 
     /* DHT22 Sensor */
     $.getJSON("https://api.thingspeak.com/channels/72313/feeds.json?results=" + String(max),
@@ -318,7 +335,6 @@
                     $("div.room1").html("主臥：" + room1_t + "°C, " + room1_h + "%");
                     $("div.room2").html("客房：" + room2_t + "°C, " + room2_h + "%");
                     $("div.room3").html("書房：" + room3_t + "°C, " + room3_h + "%");
-                    $("div.balcony").html("陽台：" + balcony_t + "°C, " + balcony_h + "%");
                 }
             });
         });
@@ -348,7 +364,7 @@
                             continue;
                         if (val[i].field2) {
                             pm25 = parseInt(val[i].field2);
-                            braek;
+                            break;
                         }
                     }
                     
@@ -364,25 +380,25 @@
             });
         });
 
-	function get_bitstamp(item) {
-		$.getJSON("https://www.bitstamp.net/api/v2/ticker/" + String(item).toLowerCase() + "usd",
-			function (data) {
-				$("div." + item.toUpperCase()).html(item.toUpperCase()+ ": " + String(data.last));
-			})
-			.fail(function() {
-				$.getJSON("https://www.bitstamp.net/api/v2/ticker/" + String(item).toLowerCase() + "usd",
-					function (data) {
-						$("div." + item.toUpperCase()).html(item.toUpperCase()+ ": " + String(data.last));
-				})
-			}
-		);
-	}
+    function get_bitstamp(item) {
+        $.getJSON("https://www.bitstamp.net/api/v2/ticker/" + String(item).toLowerCase() + "usd",
+            function (data) {
+                $("div." + item.toUpperCase()).html(item.toUpperCase()+ ": " + String(data.last));
+            })
+            .fail(function() {
+                $.getJSON("https://www.bitstamp.net/api/v2/ticker/" + String(item).toLowerCase() + "usd",
+                    function (data) {
+                        $("div." + item.toUpperCase()).html(item.toUpperCase()+ ": " + String(data.last));
+                })
+            }
+        );
+    }
 
-	get_bitstamp("ETH");
-	get_bitstamp("BCH");
-	get_bitstamp("LTC");
-	get_bitstamp("XRP");
-	get_bitstamp("BTC");
+    get_bitstamp("ETH");
+    get_bitstamp("BCH");
+    get_bitstamp("LTC");
+    get_bitstamp("XRP");
+    get_bitstamp("BTC");
 
     /* Auto Reload */
     setTimeout(function () { window.location = window.location; }, 300000);
