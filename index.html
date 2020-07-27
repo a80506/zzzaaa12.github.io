@@ -242,6 +242,7 @@
     var room1_t = 0, room1_h = 0;
     var room2_t = 0, room2_h = 0;
     var room3_t = 0, room3_h = 0;
+    var timestamp = 0;
     var light = 0;
     var pm25 = -1
     var plant_level = -1, plant_water_times = -1;
@@ -256,6 +257,12 @@
             if (found)
                 break;
             if (data.cwbopendata.location[x].locationName == "新莊") {
+                if (data.cwbopendata.location[x].time.obsTime != "") {
+                    timestamp = Date.parse(data.cwbopendata.location[x].time.obsTime);
+                    if (Date.now() - timestamp > 5400000)
+                        break;
+                }
+
                 for (var y in data.cwbopendata.location[x].weatherElement) {
                     if (data.cwbopendata.location[x].weatherElement[y].elementName == "TEMP")
                         cwb_t = data.cwbopendata.location[x].weatherElement[y].elementValue.value;
