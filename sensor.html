@@ -22,7 +22,7 @@
         }
         
         div.coin {
-            font-size: 100pt;
+            font-size: 95pt;
             color: #FFFFFF;
             font-weight: bold;
         }
@@ -353,25 +353,57 @@
                         if (Date.now() - timestamp > 5400000)
                             break;
                     }
-
                     for (var y in data.cwbopendata.location[x].weatherElement) {
                         if (data.cwbopendata.location[x].weatherElement[y].elementName == "TEMP")
                             cwb_t = data.cwbopendata.location[x].weatherElement[y].elementValue.value;
                         else if (data.cwbopendata.location[x].weatherElement[y].elementName == "HUMD")
                             cwb_h = data.cwbopendata.location[x].weatherElement[y].elementValue.value;
 
-                        if (cwb_t != "" && cwb_h != "") {
+                        if (cwb_t != "" && cwb_h != "" && parseFloat(cwb_t) > -10 && parseFloat(cwb_h) > 0) {
                             $("div.weather").html("新莊：" + cwb_t + "°C, " + String(parseInt(cwb_h*100)) + "%");
                             if (parseInt(cwb_h*100) >= 80) {
                                 $("div.weather").css("color", "#46a3ff");
                                 $("div.weather").css("font-weight", "bold");
                             }
-                            if (parseInt(cwb_t) >= 33) {
+                            if (parseInt(cwb_t) >= 32) {
                                 $("div.weather").css("color", "red");
                                 $("div.weather").css("font-weight", "bold");
                             }
                             found = 1;
                             break;
+                        }
+                    }
+                }
+            }
+            if (found == 0) {
+                for (var x in data.cwbopendata.location) {
+                    if (found)
+                        break;
+                    if (data.cwbopendata.location[x].locationName == "三重") {
+                        if (data.cwbopendata.location[x].time.obsTime != "") {
+                            timestamp = Date.parse(data.cwbopendata.location[x].time.obsTime);
+                            if (Date.now() - timestamp > 5400000)
+                                break;
+                        }
+                        for (var y in data.cwbopendata.location[x].weatherElement) {
+                            if (data.cwbopendata.location[x].weatherElement[y].elementName == "TEMP")
+                                cwb_t = data.cwbopendata.location[x].weatherElement[y].elementValue.value;
+                            else if (data.cwbopendata.location[x].weatherElement[y].elementName == "HUMD")
+                                cwb_h = data.cwbopendata.location[x].weatherElement[y].elementValue.value;
+
+                            if (cwb_t != "" && cwb_h != "" && parseFloat(cwb_t) > -10 && parseFloat(cwb_h) > 0) {
+                                $("div.weather").html("三重：" + cwb_t + "°C, " + String(parseInt(cwb_h*100)) + "%");
+                                if (parseInt(cwb_h*100) >= 80) {
+                                    $("div.weather").css("color", "#46a3ff");
+                                    $("div.weather").css("font-weight", "bold");
+                                }
+                                if (parseInt(cwb_t) >= 32) {
+                                    $("div.weather").css("color", "red");
+                                    $("div.weather").css("font-weight", "bold");
+                                }
+                                found = 1;
+                                break;
+                            }
                         }
                     }
                 }
@@ -384,5 +416,4 @@
         
     </script>
 </body>
-
 </html>
